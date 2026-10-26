@@ -134,3 +134,97 @@ export function runTalentCheck(profile, company, { requirementsSource = null, sy
     },
   };
 }
+
+export function compareCandidatesReadiness(profileA, profileB, company, options = {}) {
+  const resA = runTalentCheck(profileA, company, options);
+  const resB = runTalentCheck(profileB, company, options);
+
+  const nameA = resA.candidate_name;
+  const nameB = resB.candidate_name;
+  const scoreA = resA.readiness_score;
+  const scoreB = resB.readiness_score;
+  const scoreDiff = scoreA - scoreB;
+
+  let overallLeader = 'tie';
+  if (scoreDiff > 0) overallLeader = 'candidate_a';
+  else if (scoreDiff < 0) overallLeader = 'candidate_b';
+
+  const gapAMap = Object.fromEntries(resA.skillset_gap.map((r) => [r.category_code, r]));
+  const gapBMap = Object.fromEntries(resB.skillset_gap.map((r) => [r.category_code, r]));
+
+  const categoryComparisons = RADIX_CATEGORIES.map(({ code, name }) => {
+    const rowA = gapAMap[code];
+    const rowB = gapBMap[code];
+    const req = rowA?.required_level ?? null;
+    const levA = rowA?.candidate_level ?? 0;
+    const levB = rowB?.candidate_level ?? 0;
+    const diff = levA - levB;
+
+    let leader = 'tie';
+    let explanation = '';
+
+    if (diff > 0) {
+      leader = 'candidate_a';
+      explanation = `${nameA} leads in ${name} (level ${levA}/10 vs ${nameB}'s ${levB}/10; required: ${req}/10). ${nameA} shows stronger verified evidence (${rowA.evidence.length} items).`;
+    } else if (diff < 0) {
+      leader = 'candidate_b';
+      explanation = `${nameB} leads in ${name} (level ${levB}/10 vs ${nameA}'s ${levA}/10; required: ${req}/10). ${nameB} shows stronger verified evidence (${rowB.evidence.length} items).`;
+    } else {
+      leader = 'tie';
+      explanation = levA === 0
+        ? `Neither candidate has documented evidence in ${name} (level 0/10 vs required ${req}/10).`
+        : `Both candidates have equal estimated level ${levA}/10 in ${name} (required: ${req}/10).`;
+    }
+
+    return {
+      category_code: code,
+      category_name: name,
+      required_level: req,
+      candidate_a_level: levA,
+      candidate_b_level: levB,
+      candidate_a_status: rowA?.status,
+      candidate_b_status: rowB?.status,
+      difference: diff,
+      leader,
+      explanation,
+    };
+  });
+
+  const aLeadsCount = categoryComparisons.filter((c) => c.leader === 'candidate_a').length;
+  const bLeadsCount = categoryComparisons.filter((c) => c.leader === 'candidate_b').length;
+  const tiesCount = categoryComparisons.filter((c) => c.leader === 'tie').length;
+
+  const compName = company.company_name;
+  let leadSummary = `Both candidates have identical readiness scores of ${scoreA}/100 for ${compName}.`;
+  if (scoreDiff > 0) {
+    leadSummary = `${nameA} leads with ${scoreA}/100 readiness vs ${nameB}'s ${scoreB}/100 (+${scoreDiff} pts higher).`;
+  } else if (scoreDiff < 0) {
+    leadSummary = `${nameB} leads with ${scoreB}/100 readiness vs ${nameA}'s ${scoreA}/100 (+${Math.abs(scoreDiff)} pts higher).`;
+  }
+
+  const overallExplanation = `${leadSummary} When evaluated against ${compName}'s expectations across all 12 RADIX categories: ${nameA} outperforms in ${aLeadsCount} skillsets, ${nameB} outperforms in ${bLeadsCount} skillsets, and they tie in ${tiesCount} skillsets.`;
+
+  return {
+    company_id: company.company_id,
+    company_name: compName,
+    candidate_a: {
+      profile_id: resA.profile_id,
+      candidate_name: nameA,
+      readiness_score: scoreA,
+      strongest: resA.strongest,
+      priority_gaps: resA.priority_gaps,
+    },
+    candidate_b: {
+      profile_id: resB.profile_id,
+      candidate_name: nameB,
+      readiness_score: scoreB,
+      strongest: resB.strongest,
+      priority_gaps: resB.priority_gaps,
+    },
+    score_difference: scoreDiff,
+    leader: overallLeader,
+    overall_explanation: overallExplanation,
+    category_comparisons: categoryComparisons,
+    created_at: new Date().toISOString(),
+  };
+}
