@@ -29,9 +29,26 @@ def create_profile(profile: Profile):
     _todo("Profile Builder", "Aashish Kumar")
 
 
+@router.get("/profiles")
+def list_profiles():
+    from app.services.profile_loader import list_candidate_profiles, get_candidate_profile
+    summaries = list_candidate_profiles()
+    full_profiles = []
+    for s in summaries:
+        try:
+            full_profiles.append(get_candidate_profile(s["profile_id"]))
+        except Exception:
+            full_profiles.append(s)
+    return full_profiles
+
+
 @router.get("/profiles/{profile_id}")
 def get_profile(profile_id: str):
-    _todo("Profile Builder", "Aashish Kumar")
+    from app.services.profile_loader import get_candidate_profile
+    try:
+        return get_candidate_profile(profile_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @router.patch("/profiles/{profile_id}")
@@ -40,9 +57,9 @@ def update_profile(profile_id: str, profile: Profile):
 
 
 # Talent Check — Krishna Khanna
-@router.post("/talent-check")
-def talent_check(req: TalentCheckRequest):
-    _todo("Talent Check", "Krishna Khanna")
+from app.api.talent_check import router as talent_check_router
+
+router.include_router(talent_check_router)
 
 
 # Skill Matching — Akshat Mehra

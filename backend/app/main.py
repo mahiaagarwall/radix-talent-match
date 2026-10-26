@@ -31,7 +31,7 @@ def health():
         "status": "ok",
         "service": "radix-talent-match",
         "database": db_info,
-        "modules_implemented": ["database-supabase", "companies-requirements"],
+        "modules_implemented": ["database-supabase", "companies-requirements", "talent-check"],
     }
 
 
