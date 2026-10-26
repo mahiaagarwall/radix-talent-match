@@ -1,0 +1,2306 @@
+{
+  "version": "1.0",
+  "source": "supabase",
+  "companies": [
+    {
+      "company_id": "1",
+      "company_name": "Accenture plc",
+      "short_name": "Accenture",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "2",
+      "company_name": "Fractal Analytics Private Limited",
+      "short_name": "Fractal",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 2,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 6,
+        "SWE": 6,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "3",
+      "company_name": "Oracle India Private Limited",
+      "short_name": "Oracle India",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 7,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 6,
+        "OS": 6,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "4",
+      "company_name": "Google LLC (Subsidiary of Alphabet Inc.)",
+      "short_name": "Google",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 9,
+        "CLOUD": 9,
+        "COD": 8,
+        "COMM": 7,
+        "DSA": 9,
+        "NETW": 9,
+        "OOD": 8,
+        "OS": 9,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "5",
+      "company_name": "Apple Inc.",
+      "short_name": "Apple",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 8,
+        "CLOUD": 7,
+        "COD": 8,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 8,
+        "OOD": 8,
+        "OS": 10,
+        "SQL": 7,
+        "SWE": 9,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "6",
+      "company_name": "Mitsubishi UFJ Financial Group, Inc.",
+      "short_name": "MUFG",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 3,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 4,
+        "NETW": 4,
+        "OOD": 3,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "7",
+      "company_name": "Commonwealth Bank of Australia",
+      "short_name": "CommBank",
+      "category": "Large Cap Public Bank",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 4,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 5,
+        "OOD": 3,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "8",
+      "company_name": "KALVI CAREER EDUCATION PRIVATE LIMITED",
+      "short_name": "Kalvium",
+      "category": "Startup ",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 3,
+        "CLOUD": 2,
+        "COD": 4,
+        "COMM": 4,
+        "DSA": 3,
+        "NETW": 3,
+        "OOD": 2,
+        "OS": 2,
+        "SQL": 3,
+        "SWE": 3,
+        "SYSD": 1
+      }
+    },
+    {
+      "company_id": "9",
+      "company_name": "Larsen & Toubro Infotech Limited",
+      "short_name": "LTI",
+      "category": "Enterprise IT Services Company",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 5,
+        "SYSD": 2
+      }
+    },
+    {
+      "company_id": "10",
+      "company_name": "Tata Consultancy Services Limited",
+      "short_name": "TCS",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 4,
+        "SWE": 4,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "11",
+      "company_name": "Infosys Limited",
+      "short_name": "Infosys",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 3,
+        "SWE": 4,
+        "SYSD": 2
+      }
+    },
+    {
+      "company_id": "12",
+      "company_name": "Cloudera Data Platform India Private Limited",
+      "short_name": "Cloudera India",
+      "category": "Private Ltd Company ",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 6,
+        "OOD": 5,
+        "OS": 7,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "13",
+      "company_name": "Guidewire Software, Inc.",
+      "short_name": "Guidewire Software",
+      "category": "Public Company",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 6,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "14",
+      "company_name": "Amazon.com, Inc.",
+      "short_name": "Amazon",
+      "category": "Public Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 9,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 9,
+        "NETW": 7,
+        "OOD": 8,
+        "OS": 8,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "15",
+      "company_name": "Llama Logisol Private Limited",
+      "short_name": "Shipsy",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 4,
+        "CLOUD": 4,
+        "COD": 3,
+        "COMM": 4,
+        "DSA": 3,
+        "NETW": 4,
+        "OOD": 2,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 1
+      }
+    },
+    {
+      "company_id": "16",
+      "company_name": "Swiggy Limited",
+      "short_name": "Swiggy",
+      "category": "Scale-up/Unicorn ",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 6,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "17",
+      "company_name": "Leap Finance Private Limited",
+      "short_name": "Leap Finance",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "18",
+      "company_name": "Cisco Systems, Inc.",
+      "short_name": "Cisco",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 6,
+        "OOD": 7,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "19",
+      "company_name": "Volvo Group",
+      "short_name": "Volvo",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 4,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "20",
+      "company_name": "Amadeus IT Group",
+      "short_name": "Amadeus",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "21",
+      "company_name": "NielsenIQ",
+      "short_name": "NIQ",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "22",
+      "company_name": "Snowflake Inc.",
+      "short_name": "Snowflake",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 7,
+        "CLOUD": 7,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 7,
+        "OOD": 7,
+        "OS": 8,
+        "SQL": 9,
+        "SWE": 9,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "23",
+      "company_name": "Palantir Technologies",
+      "short_name": "Palantir",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 9,
+        "CLOUD": 9,
+        "COD": 7,
+        "COMM": 8,
+        "DSA": 9,
+        "NETW": 8,
+        "OOD": 8,
+        "OS": 9,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 8
+      }
+    },
+    {
+      "company_id": "24",
+      "company_name": "Oracle Financial Services Software Limited",
+      "short_name": "OFSS",
+      "category": "Large Cap / Publicly Listed",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 6,
+        "OS": 5,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "25",
+      "company_name": "International Business Machines Corporation ",
+      "short_name": "IBM ",
+      "category": "Public Enterprise ",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 8,
+        "NETW": 4,
+        "OOD": 7,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "26",
+      "company_name": "Barclays PLC ",
+      "short_name": "Barclays ",
+      "category": "Public Enterprise ",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "27",
+      "company_name": "Schneider Electric",
+      "short_name": "Schneider Electric ",
+      "category": "Public Enterprise ",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 5,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "28",
+      "company_name": "Blink Commerce Private Limited ",
+      "short_name": "Blinkit ",
+      "category": "Subsidiary ",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 4,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 6,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "29",
+      "company_name": "Zerodha Broking Limited ",
+      "short_name": "Zerodha",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 8,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 6,
+        "OS": 6,
+        "SQL": 8,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "30",
+      "company_name": "Myntra Designs Private Limited",
+      "short_name": "Myntra",
+      "category": "Subsidiary",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 7,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "31",
+      "company_name": "Nurix Therapeutics, Inc.",
+      "short_name": "Nurix",
+      "category": "Public ",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 3,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 3,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "32",
+      "company_name": "Citigroup Inc.",
+      "short_name": "Citi",
+      "category": "Global Banking & Financial Services Enterprise",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "33",
+      "company_name": "ZS Associates, Inc.",
+      "short_name": "ZS",
+      "category": "Private Management",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 3,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 6,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "34",
+      "company_name": "FLAM Gaming Private Limited",
+      "short_name": "FLAM",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 4,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 3,
+        "OS": 6,
+        "SQL": 5,
+        "SWE": 5,
+        "SYSD": 2
+      }
+    },
+    {
+      "company_id": "35",
+      "company_name": "SAP Labs India Private Limited",
+      "short_name": "SAP Labs",
+      "category": "Public Enterprise Technology Company",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 6,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "36",
+      "company_name": "Xperi Inc.",
+      "short_name": "Xperi",
+      "category": "Public Technology & IP Licensing Company",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "37",
+      "company_name": "Consilio LLC",
+      "short_name": "Consilio",
+      "category": "Private Legal Technology & Services",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "38",
+      "company_name": "BT Group plc",
+      "short_name": "BT",
+      "category": "Telecommunications",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 6,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "39",
+      "company_name": "Capgemini",
+      "short_name": "Capgemini",
+      "category": "IT Services, Consulting, Digital Transformation",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 4,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "40",
+      "company_name": "The Bank of New York Mellon Corporation",
+      "short_name": "BNY",
+      "category": "Financial Services / Investment Banking",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "41",
+      "company_name": "Fidelity Investments",
+      "short_name": "Fidelity",
+      "category": "Financial Services / Asset Management",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "42",
+      "company_name": "JPMorgan Chase & Co.",
+      "short_name": "JPMorgan",
+      "category": "Financial Services / Banking",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 3,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "43",
+      "company_name": "Airbus SE",
+      "short_name": "Airbus",
+      "category": "Aerospace & Defence",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "44",
+      "company_name": "Wells Fargo & Company",
+      "short_name": "Wells Fargo",
+      "category": "Financial Services / Banking",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "45",
+      "company_name": "Atlassian Corporation",
+      "short_name": "Atlassian Corporation",
+      "category": "Enterprise Software / SaaS",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 8,
+        "CLOUD": 7,
+        "COD": 7,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 7,
+        "OOD": 7,
+        "OS": 8,
+        "SQL": 8,
+        "SWE": 8,
+        "SYSD": 8
+      }
+    },
+    {
+      "company_id": "46",
+      "company_name": "Nutanix, Inc.",
+      "short_name": "Nutanix",
+      "category": "Enterprise Software / Cloud Infrastructure",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 8,
+        "OOD": 6,
+        "OS": 8,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "47",
+      "company_name": "DeepMind",
+      "short_name": "Private",
+      "category": "Artificial Intelligence / Research",
+      "skillsets": {
+        "AI": 9,
+        "APTI": 9,
+        "CLOUD": 9,
+        "COD": 8,
+        "COMM": 8,
+        "DSA": 10,
+        "NETW": 4,
+        "OOD": 9,
+        "OS": 4,
+        "SQL": 9,
+        "SWE": 10,
+        "SYSD": 9
+      }
+    },
+    {
+      "company_id": "48",
+      "company_name": "Akamai Technologies India Pvt. Ltd.",
+      "short_name": "Akamai Technologies India",
+      "category": "Subsidiary",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 9,
+        "OOD": 6,
+        "OS": 9,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "49",
+      "company_name": "Adobe Inc.",
+      "short_name": "Adobe",
+      "category": "SMB",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 8,
+        "CLOUD": 6,
+        "COD": 7,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 4,
+        "OOD": 8,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 9,
+        "SYSD": 8
+      }
+    },
+    {
+      "company_id": "50",
+      "company_name": "Genpact Ltd.",
+      "short_name": "Genpact",
+      "category": "SMB",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 3,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "51",
+      "company_name": "Uber Technologies, Inc.",
+      "short_name": "Uber",
+      "category": "SMB",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 8,
+        "CLOUD": 7,
+        "COD": 7,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 7,
+        "OOD": 7,
+        "OS": 7,
+        "SQL": 7,
+        "SWE": 9,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "52",
+      "company_name": "Dell Technologies Inc.",
+      "short_name": "Dell Technologies",
+      "category": "Enterprise Technology",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "53",
+      "company_name": "Even Healthcare Private Limited",
+      "short_name": "Even Healthcare Private Limited",
+      "category": "HealthTech / InsurTech",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "54",
+      "company_name": "Groww Invest Tech Pvt. Ltd.",
+      "short_name": "Groww",
+      "category": "FinTech / WealthTech",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "55",
+      "company_name": "MintAir Corp",
+      "short_name": "MintAir",
+      "category": "Aviation & Air Mobility Services",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 5,
+        "OOD": 3,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 1
+      }
+    },
+    {
+      "company_id": "56",
+      "company_name": "OpenAI, Inc.",
+      "short_name": "OpenAI",
+      "category": "Scale-up",
+      "skillsets": {
+        "AI": 10,
+        "APTI": 9,
+        "CLOUD": 9,
+        "COD": 8,
+        "COMM": 8,
+        "DSA": 9,
+        "NETW": 9,
+        "OOD": 9,
+        "OS": 9,
+        "SQL": 9,
+        "SWE": 10,
+        "SYSD": 8
+      }
+    },
+    {
+      "company_id": "57",
+      "company_name": "Skyhigh Security",
+      "short_name": "Skyhigh",
+      "category": "Cloud Security / Cybersecurity Software",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 6,
+        "OOD": 6,
+        "OS": 7,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "58",
+      "company_name": "Space Exploration Technologies Corp.",
+      "short_name": "SpaceX",
+      "category": "Private Aerospace Manufacturer; Space Transportation; Satellite Communications",
+      "skillsets": {
+        "AI": 9,
+        "APTI": 8,
+        "CLOUD": 8,
+        "COD": 7,
+        "COMM": 8,
+        "DSA": 8,
+        "NETW": 8,
+        "OOD": 9,
+        "OS": 9,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "59",
+      "company_name": "Walmart Inc.",
+      "short_name": "Walmart",
+      "category": "Multinational Retail Corporation",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "60",
+      "company_name": "Zepto Technologies Private Limited",
+      "short_name": "Zepto",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "61",
+      "company_name": "DevRev Cloud India Private Limited",
+      "short_name": "DevRev",
+      "category": "Startup / Scale-up SaaS",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 6,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "62",
+      "company_name": "Increff Technologies Private Limited",
+      "short_name": "Increff",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "63",
+      "company_name": "MoveInSync Technologies Private Limited",
+      "short_name": "MoveInSync",
+      "category": "Startup / Scale-up SaaS",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "64",
+      "company_name": "NVIDIA Corporation",
+      "short_name": "NVIDIA",
+      "category": "Public Enterprise",
+      "skillsets": {
+        "AI": 9,
+        "APTI": 8,
+        "CLOUD": 7,
+        "COD": 7,
+        "COMM": 7,
+        "DSA": 9,
+        "NETW": 6,
+        "OOD": 9,
+        "OS": 7,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "65",
+      "company_name": "ServiceNow, Inc.",
+      "short_name": "ServiceNow",
+      "category": "Public Enterprise SaaS Company",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 7,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "66",
+      "company_name": "Tredence Inc.",
+      "short_name": "Tredence",
+      "category": "Scale-up",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 7,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "67",
+      "company_name": "CME Group Inc.",
+      "short_name": "CME Group",
+      "category": "Public",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 6,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "68",
+      "company_name": "HCL Technologies Limited",
+      "short_name": "HCLTech",
+      "category": "Public",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "69",
+      "company_name": "Freshworks Inc.",
+      "short_name": "Freshworks",
+      "category": "Software as a Service ",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 6,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "70",
+      "company_name": "HP Inc.",
+      "short_name": "HP",
+      "category": "Mature Enterprise",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "71",
+      "company_name": "Koninklijke Philips N.V.",
+      "short_name": "Philips",
+      "category": "Health Technology",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "72",
+      "company_name": "Warner Bros. Discovery, Inc.",
+      "short_name": "Warner Bros.",
+      "category": "Mature Public Media Conglomerate",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 6,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "73",
+      "company_name": "HyperVerge Technologies Private Limited",
+      "short_name": "HyperVerge",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "74",
+      "company_name": "Motorq Technologies Private Limited",
+      "short_name": "Motorq",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 4,
+        "OS": 6,
+        "SQL": 8,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "75",
+      "company_name": "Autodesk",
+      "short_name": "Autodesk",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 7,
+        "CLOUD": 7,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 8,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "76",
+      "company_name": "Electronic Arts",
+      "short_name": "EA",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 4,
+        "OOD": 7,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "77",
+      "company_name": "Morgan Stanley",
+      "short_name": "Morgan Stanley",
+      "category": "Global Investment Bank ",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 5,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "78",
+      "company_name": "Microsoft Corporation",
+      "short_name": "Microsoft",
+      "category": "Large Cap Public Tech Conglomerate ",
+      "skillsets": {
+        "AI": 8,
+        "APTI": 8,
+        "CLOUD": 7,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 9,
+        "NETW": 8,
+        "OOD": 8,
+        "OS": 8,
+        "SQL": 8,
+        "SWE": 9,
+        "SYSD": 8
+      }
+    },
+    {
+      "company_id": "79",
+      "company_name": "Darwinbox Digital Solutions Private Limited",
+      "short_name": "Darwinbox",
+      "category": "Startup SaaS",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "80",
+      "company_name": "Epifi Technologies Private Limited",
+      "short_name": "EpiFi",
+      "category": "FinTech Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "81",
+      "company_name": "Juspay Technologies Private Limited",
+      "short_name": "Juspay",
+      "category": "Private Company; Fintech (Payments Infrastructure)",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 5,
+        "DSA": 7,
+        "NETW": 5,
+        "OOD": 6,
+        "OS": 6,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "82",
+      "company_name": "Flipkart Internet Private Limited",
+      "short_name": "Flipkart",
+      "category": "Private Company; E-commerce / Technology",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 6,
+        "CLOUD": 7,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 7,
+        "NETW": 7,
+        "OOD": 6,
+        "OS": 6,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "83",
+      "company_name": "Optum",
+      "short_name": "Optum",
+      "category": "Healthcare Services, Health IT, Data & Analytics, Pharmacy Care",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "84",
+      "company_name": "PayPal Holdings, Inc.",
+      "short_name": "PayPal",
+      "category": "FinTech / Digital Payments",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 7,
+        "CLOUD": 6,
+        "COD": 6,
+        "COMM": 7,
+        "DSA": 8,
+        "NETW": 6,
+        "OOD": 7,
+        "OS": 5,
+        "SQL": 6,
+        "SWE": 8,
+        "SYSD": 7
+      }
+    },
+    {
+      "company_id": "85",
+      "company_name": "Bajaj Finserv Health Ltd.",
+      "short_name": "Bajaj Finserv Health",
+      "category": "Health Technology / Healthcare Services",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "86",
+      "company_name": "Bain Capability Network",
+      "short_name": "Bain CN / BCN",
+      "category": "Management Consulting / Analytics & Capability Center",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 7,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 7,
+        "DSA": 5,
+        "NETW": 2,
+        "OOD": 4,
+        "OS": 2,
+        "SQL": 4,
+        "SWE": 7,
+        "SYSD": 2
+      }
+    },
+    {
+      "company_id": "87",
+      "company_name": "Proactively Inc.",
+      "short_name": "Proactively",
+      "category": "Private SaaS Startup",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 6,
+        "CLOUD": 3,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 2,
+        "SQL": 3,
+        "SWE": 6,
+        "SYSD": 1
+      }
+    },
+    {
+      "company_id": "88",
+      "company_name": "Samsung PRISM",
+      "short_name": "PRISM",
+      "category": "Corporate Academic Program",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 6,
+        "CLOUD": 5,
+        "COD": 6,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 6,
+        "OS": 4,
+        "SQL": 4,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "89",
+      "company_name": "Acko General Insurance Limited",
+      "short_name": "Acko",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 5,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "90",
+      "company_name": "Robert Bosch GmbH",
+      "short_name": "Bosch",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 6,
+        "OS": 5,
+        "SQL": 4,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "91",
+      "company_name": "Concentrix Corporation",
+      "short_name": "Concentrix",
+      "category": "Enterprise Services",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 4,
+        "CLOUD": 3,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 2,
+        "SWE": 4,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "92",
+      "company_name": "Dunzo Digital Private Limited",
+      "short_name": "Dunzo",
+      "category": "Startup",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "93",
+      "company_name": "Byju\u2019s",
+      "short_name": "BYJUS",
+      "category": "EdTech Private Company",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 4,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "94",
+      "company_name": "Cleartrip",
+      "short_name": "Cleartrip",
+      "category": "Online Travel Platform",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "95",
+      "company_name": "Cognizant Technology Solutions Corporation",
+      "short_name": "Cognizant",
+      "category": "IT Services and Consulting",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "96",
+      "company_name": "DXC Technology Company",
+      "short_name": "DXC",
+      "category": "IT Services and Consulting",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "97",
+      "company_name": "PhysicsWallah Private Limited",
+      "short_name": "PhysicsWallah; PW",
+      "category": "Private Enterprise",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 3,
+        "NETW": 4,
+        "OOD": 2,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 6,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "98",
+      "company_name": "Udemy, Inc.",
+      "short_name": "Udemy",
+      "category": "Public Enterprise",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 4,
+        "NETW": 5,
+        "OOD": 3,
+        "OS": 6,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "99",
+      "company_name": "NTT DATA",
+      "short_name": "NTT DATA",
+      "category": "IT Services, Digital Transformation, Consulting",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 4,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "100",
+      "company_name": "Virtusa Corporation",
+      "short_name": "Virtusa",
+      "category": "Private Enterprise",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 5,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "101",
+      "company_name": "upGrad Education Private Limited",
+      "short_name": "upGrad",
+      "category": "Private Enterprise",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 4,
+        "NETW": 4,
+        "OOD": 3,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "103",
+      "company_name": "Wipro Limited",
+      "short_name": "Wipro",
+      "category": "Enterprise",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 4,
+        "SWE": 4,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "104",
+      "company_name": "Paytm Money",
+      "short_name": "Paytm Money",
+      "category": "FinTech / Digital Investment Platform",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 5,
+        "OOD": 4,
+        "OS": 6,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "105",
+      "company_name": "Hexagon Capability Center India",
+      "short_name": "HCC",
+      "category": "Engineering Software and Digital Solutions GCC",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 6,
+        "NETW": 3,
+        "OOD": 5,
+        "OS": 3,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "106",
+      "company_name": "INDmoney Private Limited",
+      "short_name": "INDmoney",
+      "category": "FinTech Wealth Management Platform",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 7,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 5,
+        "NETW": 5,
+        "OOD": 4,
+        "OS": 6,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "107",
+      "company_name": "Tech Mahindra Limited",
+      "short_name": "Tech Mahindra",
+      "category": "Public IT Services & Consulting Company",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 4,
+        "SWE": 5,
+        "SYSD": 3
+      }
+    },
+    {
+      "company_id": "108",
+      "company_name": "Simplilearn",
+      "short_name": "Simplilearn",
+      "category": "E-Learning / EdTech ",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 6,
+        "DSA": 3,
+        "NETW": 4,
+        "OOD": 2,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 5,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "109",
+      "company_name": "BigBasket",
+      "short_name": "BigBasket",
+      "category": "Online Grocery and Quick Commerce",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 5,
+        "SQL": 7,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "110",
+      "company_name": "Ecom Express",
+      "short_name": "Ecom Express",
+      "category": "Logistics and Supply Chain",
+      "skillsets": {
+        "AI": 5,
+        "APTI": 4,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 3,
+        "OOD": 3,
+        "OS": 3,
+        "SQL": 6,
+        "SWE": 6,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "111",
+      "company_name": "Kyndryl Holdings Inc.",
+      "short_name": "Kyndryl",
+      "category": "Public Enterprise",
+      "skillsets": {
+        "AI": 4,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 4,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "112",
+      "company_name": "One MobiKwik Systems Limited",
+      "short_name": "MobiKwik",
+      "category": "Public Fintech",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 7,
+        "SYSD": 4
+      }
+    },
+    {
+      "company_id": "113",
+      "company_name": "Shadowfax",
+      "short_name": "Shadowfax",
+      "category": "Logistics / Last-mile Delivery / Supply Chain",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 4,
+        "CLOUD": 6,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 3,
+        "OS": 4,
+        "SQL": 6,
+        "SWE": 6,
+        "SYSD": 5
+      }
+    },
+    {
+      "company_id": "114",
+      "company_name": "Rupeek",
+      "short_name": "Rupeek",
+      "category": "FinTech / Digital Lending / Gold Loans",
+      "skillsets": {
+        "AI": 6,
+        "APTI": 5,
+        "CLOUD": 5,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 5,
+        "NETW": 4,
+        "OOD": 4,
+        "OS": 4,
+        "SQL": 5,
+        "SWE": 7,
+        "SYSD": 6
+      }
+    },
+    {
+      "company_id": "115",
+      "company_name": "3i Infotech Ltd.",
+      "short_name": "3i Infotech",
+      "category": "Public Company; IT Services & Digital Transformation",
+      "skillsets": {
+        "AI": 3,
+        "APTI": 5,
+        "CLOUD": 4,
+        "COD": 4,
+        "COMM": 5,
+        "DSA": 4,
+        "NETW": 2,
+        "OOD": 3,
+        "OS": 2,
+        "SQL": 5,
+        "SWE": 4,
+        "SYSD": 2
+      }
+    },
+    {
+      "company_id": "116",
+      "company_name": "BharatPe",
+      "short_name": "BharatPe",
+      "category": "Private Company; Fintech (Payments & Lending)",
+      "skillsets": {
+        "AI": 7,
+        "APTI": 5,
+        "CLOUD": 6,
+        "COD": 5,
+        "COMM": 5,
+        "DSA": 6,
+        "NETW": 7,
+        "OOD": 5,
+        "OS": 7,
+        "SQL": 7,
+        "SWE": 8,
+        "SYSD": 6
+      }
+    }
+  ]
+}
