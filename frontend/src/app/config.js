@@ -15,6 +15,7 @@ export const ENDPOINTS = {
   profiles: '/api/profiles',
   profile: (id) => `/api/profiles/${encodeURIComponent(id)}`,
   talentCheck: '/api/talent-check',
+  talentCheckCompare: '/api/talent-check/compare',
   skillMatch: '/api/skill-match',
   // Proposed additions (not in the guide yet):
   jds: '/api/jd',

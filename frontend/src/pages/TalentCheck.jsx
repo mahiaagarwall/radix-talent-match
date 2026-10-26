@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Gauge, Play, RotateCcw, UserRoundPen, History, FileJson } from 'lucide-react';
+import { Gauge, Play, RotateCcw, UserRoundPen, History, FileJson, Users } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { DemoNotice } from '../components/layout/DemoNotice';
 import { Card, CardHeader, CardBody } from '../components/ui/Card';
@@ -10,6 +10,7 @@ import { SelectField } from '../components/ui/Fields';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
 import { RequirementsSetup } from '../components/talent-check/RequirementsSetup';
 import { TalentCheckResultView } from '../components/talent-check/TalentCheckResultView';
+import { CandidateComparisonView } from '../components/talent-check/CandidateComparisonView';
 import { talentCheckService } from '../services/talentCheckService';
 import { useAppData } from '../context/AppDataContext';
 import { useToast } from '../context/ToastContext';
@@ -25,6 +26,12 @@ export default function TalentCheck() {
   const [running, setRunning] = useState(false);
   const [error, setError] = useState(null);
   const [current, setCurrent] = useState(null);
+
+  // Mode: 'single' (Individual assessment) vs 'compare' (Compare two candidates)
+  const [activeTab, setActiveTab] = useState(params.get('tab') || 'single');
+  const [profileIdB, setProfileIdB] = useState(params.get('profile_b') || '');
+  const [comparison, setComparison] = useState(null);
+  const [runningCompare, setRunningCompare] = useState(false);
 
   const profileId = params.get('profile') || activeProfileId || '';
   const companyId = params.get('company') || '';
@@ -45,6 +52,7 @@ export default function TalentCheck() {
   const companies = reqState.data?.companies || [];
   const company = companies.find((c) => c.company_id === companyId) || null;
   const profileExists = profiles.items.some((p) => p.profile_id === profileId);
+  const profileBExists = profiles.items.some((p) => p.profile_id === profileIdB);
 
   const lastForPair = useMemo(
     () =>
@@ -65,6 +73,14 @@ export default function TalentCheck() {
     else next.delete(key);
     setParams(next, { replace: true });
     if (key === 'profile') setActiveProfileId(value || null);
+    if (key === 'profile_b') setProfileIdB(value || '');
+  };
+
+  const switchTab = (tab) => {
+    setActiveTab(tab);
+    const next = new URLSearchParams(params);
+    next.set('tab', tab);
+    setParams(next, { replace: true });
   };
 
   const importFile = async (file) => {
@@ -102,7 +118,28 @@ export default function TalentCheck() {
     }
   };
 
+  const runCompare = async () => {
+    if (!profileExists || !profileBExists || !company) return;
+    setRunningCompare(true);
+    setError(null);
+    try {
+      const result = await talentCheckService.compare({
+        profileIdA: profileId,
+        profileIdB,
+        company,
+        requirements: reqState.data,
+      });
+      setComparison(result);
+      notify(`Comparison complete: ${result.overall_explanation.slice(0, 75)}…`, { tone: 'success' });
+    } catch (err) {
+      setError(err);
+    } finally {
+      setRunningCompare(false);
+    }
+  };
+
   const canRun = profileExists && company && !running;
+  const canCompare = profileExists && profileBExists && profileId !== profileIdB && company && !runningCompare;
 
   return (
     <>
@@ -157,6 +194,25 @@ export default function TalentCheck() {
                 }
               />
               <CardBody>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 18, borderBottom: '1px solid var(--color-border)', paddingBottom: 12 }}>
+                  <Button
+                    size="sm"
+                    variant={activeTab === 'single' ? 'primary' : 'ghost'}
+                    icon={Gauge}
+                    onClick={() => switchTab('single')}
+                  >
+                    Individual Candidate
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={activeTab === 'compare' ? 'primary' : 'ghost'}
+                    icon={Users}
+                    onClick={() => switchTab('compare')}
+                  >
+                    Compare Two Candidates (Acceptance Test)
+                  </Button>
+                </div>
+
                 {profiles.loading ? (
                   <LoadingState label="Loading profiles…" />
                 ) : profiles.error ? (
@@ -173,7 +229,7 @@ export default function TalentCheck() {
                       </Button>
                     }
                   />
-                ) : (
+                ) : activeTab === 'single' ? (
                   <div className="selector-row">
                     <SelectField
                       label="Candidate profile"
@@ -193,6 +249,35 @@ export default function TalentCheck() {
                       {current ? 'Rerun assessment' : 'Run assessment'}
                     </Button>
                   </div>
+                ) : (
+                  <div className="selector-row" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+                    <SelectField
+                      label="Candidate A"
+                      value={profileExists ? profileId : ''}
+                      placeholder="Choose Candidate A…"
+                      onChange={(e) => select('profile', e.target.value)}
+                      options={profiles.items.map((p) => ({ value: p.profile_id, label: p.name }))}
+                    />
+                    <SelectField
+                      label="Candidate B"
+                      value={profileBExists ? profileIdB : ''}
+                      placeholder="Choose Candidate B…"
+                      onChange={(e) => select('profile_b', e.target.value)}
+                      options={profiles.items.map((p) => ({ value: p.profile_id, label: p.name }))}
+                    />
+                    <SelectField
+                      label="Company"
+                      value={company ? companyId : ''}
+                      placeholder="Choose a company…"
+                      onChange={(e) => select('company', e.target.value)}
+                      options={companies.map((c) => ({ value: c.company_id, label: c.company_name + (c.synthetic ? ' (synthetic)' : '') }))}
+                    />
+                    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                      <Button variant="primary" icon={Users} onClick={runCompare} loading={runningCompare} disabled={!canCompare} style={{ width: '100%' }}>
+                        Compare candidates
+                      </Button>
+                    </div>
+                  </div>
                 )}
                 {company?.missing_categories?.length > 0 && (
                   <p className="xsmall muted" style={{ marginTop: 12 }}>
@@ -200,37 +285,69 @@ export default function TalentCheck() {
                     from the score.
                   </p>
                 )}
-                {current && !running && (
+                {activeTab === 'single' && current && !running && (
                   <p className="xsmall muted row" style={{ marginTop: 12 }}>
                     <History size={13} aria-hidden="true" /> Showing the result from {formatRelative(current.created_at)}.
+                  </p>
+                )}
+                {activeTab === 'compare' && profileId && profileIdB && profileId === profileIdB && (
+                  <p className="xsmall muted" style={{ marginTop: 12, color: 'var(--color-warning)' }}>
+                    Please select two different candidate profiles to compare.
                   </p>
                 )}
               </CardBody>
             </Card>
 
-            {error && <ErrorState error={error} title="Assessment failed" onRetry={canRun ? run : undefined} />}
+            {error && <ErrorState error={error} title="Assessment failed" onRetry={activeTab === 'single' ? (canRun ? run : undefined) : (canCompare ? runCompare : undefined)} />}
 
-            {running ? (
-              <Card>
-                <LoadingState label="Estimating levels across 12 skillsets…" />
-              </Card>
-            ) : current ? (
-              <TalentCheckResultView result={current} />
-            ) : (
-              profileExists &&
-              company && (
+            {activeTab === 'single' ? (
+              running ? (
                 <Card>
-                  <EmptyState
-                    icon={Gauge}
-                    title="Ready to assess"
-                    description="Run the assessment to see the readiness score and the 12-skillset gap breakdown."
-                    actions={
-                      <Button variant="primary" icon={Play} onClick={run}>
-                        Run assessment
-                      </Button>
-                    }
-                  />
+                  <LoadingState label="Estimating levels across 12 skillsets…" />
                 </Card>
+              ) : current ? (
+                <TalentCheckResultView result={current} />
+              ) : (
+                profileExists &&
+                company && (
+                  <Card>
+                    <EmptyState
+                      icon={Gauge}
+                      title="Ready to assess"
+                      description="Run the assessment to see the readiness score and the 12-skillset gap breakdown."
+                      actions={
+                        <Button variant="primary" icon={Play} onClick={run}>
+                          Run assessment
+                        </Button>
+                      }
+                    />
+                  </Card>
+                )
+              )
+            ) : (
+              runningCompare ? (
+                <Card>
+                  <LoadingState label="Comparing candidate levels and explaining 12-skillset gaps…" />
+                </Card>
+              ) : comparison ? (
+                <CandidateComparisonView comparison={comparison} />
+              ) : (
+                profileExists &&
+                profileBExists &&
+                company && (
+                  <Card>
+                    <EmptyState
+                      icon={Users}
+                      title="Ready to compare candidates"
+                      description="Click compare to see a side-by-side evaluation against company expectations across all 12 RADIX categories."
+                      actions={
+                        <Button variant="primary" icon={Users} onClick={runCompare} disabled={!canCompare}>
+                          Compare candidates
+                        </Button>
+                      }
+                    />
+                  </Card>
+                )
               )
             )}
           </>

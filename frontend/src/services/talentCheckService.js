@@ -6,7 +6,7 @@ import { readJson, writeJson, removeKey, KEYS } from './storage';
 import { profileService } from './profileService';
 import { resultsService, normalizeResult } from './resultsService';
 import { parseCompanyRequirements } from '../utils/companyRequirements';
-import { runTalentCheck } from '../utils/readinessScorer';
+import { runTalentCheck, compareCandidatesReadiness } from '../utils/readinessScorer';
 
 async function fetchBundledFile() {
   let response;
@@ -71,5 +71,22 @@ export const talentCheckService = {
       synthetic: Boolean(company.synthetic),
     });
     return resultsService.saveLocal(result);
+  },
+
+  async compare({ profileIdA, profileIdB, company, requirements }) {
+    if (getDataMode() === 'api') {
+      return await apiClient.post(ENDPOINTS.talentCheckCompare, {
+        profile_id_a: profileIdA,
+        profile_id_b: profileIdB,
+        company_id: company.company_id,
+      });
+    }
+    const profileA = await profileService.get(profileIdA);
+    const profileB = await profileService.get(profileIdB);
+    await tick(400);
+    return compareCandidatesReadiness(profileA, profileB, company, {
+      requirementsSource: requirements?.source,
+      synthetic: Boolean(company.synthetic),
+    });
   },
 };
