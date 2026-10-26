@@ -22,9 +22,17 @@ app.add_middleware(
 )
 
 
+from app.db import check_db_health
+
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "service": "radix-talent-match", "modules_implemented": []}
+    db_info = check_db_health()
+    return {
+        "status": "ok",
+        "service": "radix-talent-match",
+        "database": db_info,
+        "modules_implemented": ["database-supabase", "companies-requirements"],
+    }
 
 
 app.include_router(api_router, prefix="/api")

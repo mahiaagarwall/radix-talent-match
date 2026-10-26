@@ -49,3 +49,10 @@ def talent_check(req: TalentCheckRequest):
 @router.post("/skill-match")
 def skill_match(req: SkillMatchRequest):
     _todo("Skill Matching", "Akshat Mehra")
+
+
+# Companies & Skillsets from Supabase
+@router.get("/companies")
+def get_companies():
+    from app.db import get_companies_requirements
+    return get_companies_requirements()
