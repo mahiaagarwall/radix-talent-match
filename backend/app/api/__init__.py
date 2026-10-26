@@ -20,7 +20,16 @@ async def analyze_jd(file: UploadFile = File(...)):
 # Resume Parsing — Mahi Aggarwal
 @router.post("/resumes/parse")
 async def parse_resume(file: UploadFile = File(...)):
-    _todo("Resume Parsing", "Mahi Aggarwal")
+    from app.services.resume_service import parse_upload
+
+    return parse_upload(file.filename or "", await file.read())
+
+
+@router.get("/resumes/{resume_id}")
+def get_resume(resume_id: str):
+    from app.services.resume_service import load_resume
+
+    return load_resume(resume_id)
 
 
 # Profile Builder — Aashish Kumar

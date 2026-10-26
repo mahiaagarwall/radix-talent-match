@@ -52,6 +52,7 @@ All paths live in `frontend/src/app/config.js` (`ENDPOINTS`). Errors: FastAPI's 
   "source_file": "Ananya Rao.pdf",
   "name": "Ananya Rao",
   "email": null,
+  "headline": "Systems-leaning generalist — ...",
   "education": [{"degree": "B.Tech", "field": "...", "institution": "", "graduation_year": "2026", "grade": "CGPA 8.6 / 10"}],
   "skills": [<skill>],
   "projects": [{"title": "...", "description": "..."}],
@@ -60,11 +61,22 @@ All paths live in `frontend/src/app/config.js` (`ENDPOINTS`). Errors: FastAPI's 
   "certifications": [{"name": "...", "issuer": "..."}],
   "achievements": ["..."],
   "preferred_roles": ["..."],
-  "resume_reference": "supabase-storage-path"
+  "resume_reference": "uuid-of-parsed_resumes-row or null"
 }
 ```
 Tolerated variations: `candidate: {...}` wrapper, `experience` instead of `internships`, string
 `education`, string certifications.
+
+**Implemented (Mahi, branch `mahi`):**
+- Resume skills use exactly the 4 skill fields (no `requirement`). Confidence is computed by the
+  rule in `docs/scoring-rules.md`, never copied from the LLM. `email` is only ever taken from the text.
+- `resume_reference` = the `parsed_resumes.resume_id` (UUID) when the parse was saved, else `null`.
+  The original file is not uploaded to Supabase Storage yet.
+- Errors: `400` bad file (empty / not PDF-DOCX / corrupt / encrypted / no text layer / >10 MB),
+  `422` no usable content (e.g. no name), `502` LLM failure, `503` parsed but database save failed.
+- `GET /api/resumes/{resume_id}` returns the stored JSON (404 if unknown).
+- Tables: `backend/sql/001_resume_tables.sql` (`parsed_resumes`, `resume_skills`, and the view
+  `resume_category_evidence` for Talent Check: skill counts per RADIX category per resume).
 
 ## 4. JD record
 
