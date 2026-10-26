@@ -15,7 +15,12 @@ elif root_env.exists():
     load_dotenv(root_env)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://capdvzezqlqzkgpcffzk.supabase.co")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_ANON_KEY", "")
+SUPABASE_KEY = os.getenv(
+    "SUPABASE_SERVICE_ROLE_KEY"
+) or os.getenv(
+    "SUPABASE_ANON_KEY",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhcGR2emV6cWxxemtncGNmZnprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNDM2ODksImV4cCI6MjEwNzcxOTY4OX0.WnQWIgcZh_obuJqLLNRPsPBtzegd-XUfbyCKydr3BHM",
+)
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql://postgres.capdvzezqlqzkgpcffzk:company_reserch_v1.1@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
