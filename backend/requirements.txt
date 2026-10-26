@@ -2,4 +2,6 @@ fastapi>=0.110
 uvicorn[standard]>=0.29
 python-multipart>=0.0.9
 pydantic>=2.6
-# supabase>=2.4      # add when the db/ layer is implemented
+supabase>=2.4
+psycopg2-binary>=2.9
+python-dotenv>=1.0
