@@ -8,6 +8,8 @@ import {
   GitCompareArrows,
   ClipboardList,
   Settings,
+  Search,
+  Sparkles,
 } from 'lucide-react';
 
 // Workflow order follows the participant brief:
@@ -31,6 +33,13 @@ export const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Career Copilot',
+    items: [
+      { to: '/job-finder', label: 'Job Finder', icon: Search },
+      { to: '/resume-coach', label: 'Resume Coach', icon: Sparkles },
+    ],
+  },
+  {
     label: 'Insights',
     items: [
       { to: '/results', label: 'Results', icon: ClipboardList },
@@ -49,6 +58,8 @@ const TITLES = [
   ['/jd-analytics', 'JD Analytics'],
   ['/talent-check', 'Talent Check'],
   ['/skill-matching', 'Skill Matching'],
+  ['/job-finder', 'Job Finder'],
+  ['/resume-coach', 'Resume Coach'],
   ['/results', 'Results'],
   ['/settings', 'Settings'],
 ];

@@ -50,6 +50,8 @@ describe("navigation", () => {
       "Profile Builder",
       "Talent Check",
       "Skill Matching",
+      "Job Finder",
+      "Resume Coach",
       "Results",
       "Settings",
     ]);
@@ -62,6 +64,8 @@ describe("navigation", () => {
       "/profile-builder",
       "/talent-check",
       "/skill-matching",
+      "/job-finder",
+      "/resume-coach",
       "/results",
       "/settings",
     ]);

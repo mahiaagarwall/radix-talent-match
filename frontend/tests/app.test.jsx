@@ -15,6 +15,8 @@ describe('routing', () => {
     ['/jd-analytics', /JD Analytics/],
     ['/talent-check', /Talent Check/],
     ['/skill-matching', /Skill Matching/],
+    ['/job-finder', /Job Finder/],
+    ['/resume-coach', /Resume Coach/],
     ['/results', /Results/],
     ['/settings', /Settings/],
     ['/does-not-exist', /Page not found/],

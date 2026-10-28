@@ -60,6 +60,7 @@ def api_health():
             "jd_analytics",
             "talent_check",
             "skill_matching",
+            "career_copilot",
         ],
         "database": db_health,
         "groq_configured": settings.groq_configured,

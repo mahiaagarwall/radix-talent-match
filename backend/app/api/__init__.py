@@ -18,6 +18,7 @@ from app.api.resume_parsing import router as resume_parsing_router
 from app.api.jd import router as jd_router
 from app.api.talent_check import router as talent_check_router
 from app.api.skill_matching import router as skill_matching_router
+from app.api.career_copilot import router as career_copilot_router
 from app.services.company_requirements import load_company_skillsets
 from app.db.skill_match_repository import repository as skill_match_repo
 
@@ -29,6 +30,7 @@ router.include_router(resume_parsing_router)
 router.include_router(jd_router)
 router.include_router(talent_check_router)
 router.include_router(skill_matching_router)
+router.include_router(career_copilot_router)
 
 
 @router.get(

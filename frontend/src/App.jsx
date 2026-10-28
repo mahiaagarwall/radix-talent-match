@@ -10,6 +10,8 @@ import ProfileBuilder from './pages/ProfileBuilder';
 import JDAnalytics from './pages/JDAnalytics';
 import TalentCheck from './pages/TalentCheck';
 import SkillMatching from './pages/SkillMatching';
+import JobFinder from './pages/JobFinder';
+import ResumeCoach from './pages/ResumeCoach';
 import Results from './pages/Results';
 import ResultDetail from './pages/ResultDetail';
 import Settings from './pages/Settings';
@@ -28,6 +30,8 @@ export function AppRoutes() {
         <Route path="jd-analytics/:jdId" element={<JDAnalytics />} />
         <Route path="talent-check" element={<TalentCheck />} />
         <Route path="skill-matching" element={<SkillMatching />} />
+        <Route path="job-finder" element={<JobFinder />} />
+        <Route path="resume-coach" element={<ResumeCoach />} />
         <Route path="results" element={<Results />} />
         <Route path="results/:resultId" element={<ResultDetail />} />
         <Route path="settings" element={<Settings />} />
