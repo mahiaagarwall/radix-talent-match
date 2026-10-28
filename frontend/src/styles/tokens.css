@@ -1,46 +1,59 @@
-/* Design tokens — single source of truth for colour, type, spacing, radii. */
+/* Design tokens — single source of truth for colour, type, spacing, radii, elevation. */
 :root {
-  /* Brand */
-  --navy: #111c35;
-  --navy-700: #1b2a4d;
-  --navy-600: #24365f;
-  --indigo: #3346a8;
-  --indigo-600: #2a3b91;
-  --indigo-50: #eef0fb;
-  --teal: #0f9f91;
-  --teal-700: #0b7d72;
-  --teal-50: #e7f6f4;
+  /* Brand — PARALLAX (Deep Navy, Cyan, Violet) */
+  --brand-navy: #090e1f;
+  --navy: #090e1f;
+  --navy-700: #101730;
+  --navy-600: #1c274c;
+  --brand-cyan: #06b6d4;
+  --brand-cyan-dark: #0891b2;
+  --brand-violet: #8b5cf6;
+  --brand-gradient: linear-gradient(135deg, #00d4ff 0%, #38bdf8 35%, #818cf8 70%, #a855f7 100%);
+  --brand-gradient-subtle: linear-gradient(135deg, rgba(0, 212, 255, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+  --indigo: #4338ca;
+  --indigo-600: #3730a3;
+  --indigo-50: #eef2ff;
+  --teal: #0891b2;
+  --teal-700: #0e7490;
+  --teal-50: #ecfeff;
 
   /* Neutrals */
-  --bg: #f5f7fb;
+  --bg: #f8fafc;
   --surface: #ffffff;
-  --surface-muted: #f8fafc;
-  --text: #172033;
-  --text-secondary: #64748b;
-  --text-muted: #7b8798;
+  --surface-muted: #f1f5f9;
+  --surface-hover: #f8fafc;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
   --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
   --border-strong: #cbd5e1;
 
   /* Status */
-  --success: #15803d;
-  --success-50: #ecf8f0;
+  --success: #16a34a;
+  --success-text: #15803d;
+  --success-50: #f0fdf4;
   --warning: #d97706;
-  --warning-text: #a35a04;
-  --warning-50: #fef6e7;
+  --warning-text: #b45309;
+  --warning-50: #fffbeb;
   --error: #dc2626;
   --error-text: #b91c1c;
-  --error-50: #fdeeee;
+  --error-50: #fef2f2;
+  --info: #0284c7;
+  --info-text: #0369a1;
+  --info-50: #f0f9ff;
 
-  /* Chart fills (validated: teal / amber / red pass CVD + normal-vision checks) */
-  --chart-matched: #0f9f91;
-  --chart-partial: #e9a23b;
-  --chart-missing: #dc2626;
-  --chart-required: #3346a8;
-  --chart-estimated: #0f9f91;
+  /* Chart fills */
+  --chart-matched: #0d9488;
+  --chart-partial: #eab308;
+  --chart-missing: #ef4444;
+  --chart-required: #4338ca;
+  --chart-estimated: #0284c7;
   --chart-grid: #e2e8f0;
+  --chart-text: #64748b;
 
   /* Typography */
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --fs-xs: 0.75rem;   /* 12 — metadata */
   --fs-sm: 0.8125rem; /* 13 — labels, table */
   --fs-base: 0.875rem;/* 14 — body */
@@ -65,17 +78,78 @@
   --radius-sm: 6px;
   --radius: 8px;
   --radius-lg: 12px;
-  --shadow-sm: 0 1px 2px rgba(17, 28, 53, 0.06);
-  --shadow: 0 1px 3px rgba(17, 28, 53, 0.08), 0 1px 2px rgba(17, 28, 53, 0.04);
-  --shadow-lg: 0 12px 32px rgba(17, 28, 53, 0.16);
-  --focus-ring: 0 0 0 3px rgba(51, 70, 168, 0.35);
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.1), 0 4px 10px -4px rgba(15, 23, 42, 0.06);
+  --focus-ring: 0 0 0 3px rgba(67, 56, 202, 0.3);
 
   /* Layout */
-  --sidebar-w: 248px;
+  --sidebar-w: 252px;
   --sidebar-w-collapsed: 72px;
   --topbar-h: 60px;
-  --content-max: 1280px;
+  --content-max: 1320px;
   --control-h: 38px;
   --control-h-sm: 32px;
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  /* Brand — PARALLAX Dark */
+  --brand-navy: #050814;
+  --navy: #050814;
+  --navy-700: #0a0f24;
+  --navy-600: #121a38;
+  --brand-cyan: #22d3ee;
+  --brand-cyan-dark: #06b6d4;
+  --brand-violet: #a78bfa;
+  --indigo: #818cf8;
+  --indigo-600: #a5b4fc;
+  --indigo-50: rgba(129, 140, 248, 0.15);
+  --teal: #22d3ee;
+  --teal-700: #67e8f9;
+  --teal-50: rgba(34, 211, 238, 0.15);
+
+  /* Neutrals */
+  --bg: #0b0f19;
+  --surface: #111827;
+  --surface-muted: #1e293b;
+  --surface-hover: #1e293b;
+  --text: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #78889e;
+  --border: #1e293b;
+  --border-subtle: #172033;
+  --border-strong: #334155;
+
+  /* Status */
+  --success: #22c55e;
+  --success-text: #4ade80;
+  --success-50: rgba(34, 197, 94, 0.15);
+  --warning: #f59e0b;
+  --warning-text: #fbbf24;
+  --warning-50: rgba(245, 158, 11, 0.15);
+  --error: #ef4444;
+  --error-text: #f87171;
+  --error-50: rgba(239, 68, 68, 0.15);
+  --info: #38bdf8;
+  --info-text: #7dd3fc;
+  --info-50: rgba(56, 189, 248, 0.15);
+
+  /* Chart fills */
+  --chart-matched: #2dd4bf;
+  --chart-partial: #fbbf24;
+  --chart-missing: #f87171;
+  --chart-required: #818cf8;
+  --chart-estimated: #38bdf8;
+  --chart-grid: #334155;
+  --chart-text: #94a3b8;
+
+  /* Shape & depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.65);
+  --focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.45);
 }

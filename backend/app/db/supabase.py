@@ -1,154 +1,127 @@
-"""Supabase database and client module for RADIX Talent Match."""
+"""Supabase client configuration and factory for RADIX Talent Match.
+
+Safe credential loading from environment variables.
+Never crashes when environment variables are not yet configured.
+Never exposes secret keys or connection strings in logs or exceptions.
+"""
+
+from __future__ import annotations
 
 import os
-from pathlib import Path
-from typing import Dict, Any, List, Optional
-from dotenv import load_dotenv
-
-# Ensure environment variables are loaded from backend/.env or root .env
-backend_env = Path(__file__).resolve().parent.parent.parent / ".env"
-root_env = Path(__file__).resolve().parent.parent.parent.parent / ".env"
-
-if backend_env.exists():
-    load_dotenv(backend_env)
-elif root_env.exists():
-    load_dotenv(root_env)
-
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://capdvzezqlqzkgpcffzk.supabase.co")
-SUPABASE_KEY = os.getenv(
-    "SUPABASE_SERVICE_ROLE_KEY"
-) or os.getenv(
-    "SUPABASE_ANON_KEY",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhcGR2emV6cWxxemtncGNmZnprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNDM2ODksImV4cCI6MjEwNzcxOTY4OX0.WnQWIgcZh_obuJqLLNRPsPBtzegd-XUfbyCKydr3BHM",
-)
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://postgres.capdvzezqlqzkgpcffzk:company_reserch_v1.1@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
-)
-DATABASE_URL_DIRECT = os.getenv(
-    "DATABASE_URL_DIRECT",
-    "postgresql://postgres:company_reserch_v1.1@db.capdvzezqlqzkgpcffzk.supabase.co:5432/postgres",
-)
-
-_client = None
+from typing import Optional, Dict, Any
+from supabase import create_client, Client
 
 
-def get_supabase_client():
-    """Returns the singleton Supabase client instance."""
-    global _client
-    if _client is None:
-        if not SUPABASE_URL or not SUPABASE_KEY:
-            raise ValueError("SUPABASE_URL and SUPABASE_ANON_KEY (or SUPABASE_SERVICE_ROLE_KEY) must be set.")
-        from supabase import create_client
-        _client = create_client(SUPABASE_URL, SUPABASE_KEY)
-    return _client
+def get_supabase_url() -> Optional[str]:
+    return os.getenv("SUPABASE_URL") or None
+
+
+def get_supabase_key() -> Optional[str]:
+    # Check for service role key first, then anon key / general key
+    return (
+        os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+        or os.getenv("SUPABASE_KEY")
+        or os.getenv("SUPABASE_ANON_KEY")
+        or None
+    )
+
+
+def is_supabase_configured() -> bool:
+    url = get_supabase_url()
+    key = get_supabase_key()
+    return bool(url and key and str(url).startswith("http"))
+
+
+_client_instance: Optional[Client] = None
+
+
+def get_supabase_client() -> Optional[Client]:
+    """Return a singleton Supabase client, or None if credentials are missing."""
+    global _client_instance
+    if _client_instance is not None:
+        return _client_instance
+
+    if not is_supabase_configured():
+        return None
+
+    try:
+        url = get_supabase_url()
+        key = get_supabase_key()
+        if url and key:
+            _client_instance = create_client(url, key)
+            return _client_instance
+    except Exception:
+        return None
+
+    return None
 
 
 def get_db_connection():
-    """Returns a raw psycopg2 database connection.
+    """Return a raw psycopg2 database connection if configured and available.
     
-    Tries the pooler URL first (works across IPv4/IPv6 networks),
-    then falls back to direct connection string if needed.
+    Raises RuntimeError if psycopg2 is missing or credentials cannot connect.
+    Never exposes passwords or sensitive DSN details.
     """
-    import psycopg2
-    
+    database_url = os.getenv("DATABASE_URL")
+    database_url_direct = os.getenv("DATABASE_URL_DIRECT")
+
+    if not database_url and not database_url_direct:
+        raise RuntimeError("DATABASE_URL is not configured in environment.")
+
+    try:
+        import psycopg2
+    except ImportError:
+        raise RuntimeError("psycopg2 is not installed.")
+
     errors = []
-    for dsn in [DATABASE_URL, DATABASE_URL_DIRECT]:
+    for dsn in [database_url, database_url_direct]:
         if not dsn:
             continue
         try:
             conn = psycopg2.connect(dsn, connect_timeout=5)
             return conn
-        except Exception as e:
-            errors.append(f"{dsn.split('@')[-1]}: {str(e)}")
-            continue
-            
-    raise RuntimeError(f"Failed to connect to PostgreSQL database: {'; '.join(errors)}")
+        except Exception as exc:
+            errors.append(type(exc).__name__)
+
+    raise RuntimeError(f"Failed to connect to PostgreSQL ({', '.join(errors)})")
 
 
 def check_db_health() -> Dict[str, Any]:
-    """Tests both the Supabase API client and direct PostgreSQL connection."""
+    """Test Supabase API and/or PostgreSQL connection safely."""
     health: Dict[str, Any] = {
         "status": "ok",
-        "supabase_url": SUPABASE_URL,
-        "postgres_connected": False,
+        "supabase_configured": is_supabase_configured(),
         "supabase_client_ready": False,
-        "tables_count": 0,
-        "companies_count": 0,
-        "skill_levels_count": 0,
+        "postgres_connected": False,
+        "tables_accessible": False,
     }
-    
-    # 1. Supabase client check
-    try:
-        client = get_supabase_client()
-        # Ping storage or auth
-        _ = client.storage.list_buckets()
-        health["supabase_client_ready"] = True
-    except Exception as e:
-        health["supabase_client_error"] = str(e)
 
-    # 2. Postgres direct/pooler check
+    client = get_supabase_client()
+    if client:
+        try:
+            # Simple probe on public tables
+            res = client.table("candidate_profiles").select("profile_id", count="exact").limit(1).execute()
+            health["supabase_client_ready"] = True
+            health["tables_accessible"] = True
+        except Exception:
+            health["supabase_client_ready"] = True
+
     try:
         conn = get_db_connection()
-        cur = conn.cursor()
-        
-        cur.execute("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='public';")
-        health["tables_count"] = cur.fetchone()[0]
-        
-        cur.execute("SELECT COUNT(*) FROM companies;")
-        health["companies_count"] = cur.fetchone()[0]
-        
-        cur.execute("SELECT COUNT(*) FROM company_skill_levels;")
-        health["skill_levels_count"] = cur.fetchone()[0]
-        
         health["postgres_connected"] = True
         conn.close()
-    except Exception as e:
+    except Exception:
         health["postgres_connected"] = False
-        health["postgres_error"] = str(e)
-        health["status"] = "degraded" if health["supabase_client_ready"] else "error"
-        
+
+    if not health["supabase_configured"] and not health["postgres_connected"]:
+        health["status"] = "offline_fixtures_active"
+    elif not health["supabase_client_ready"] and not health["postgres_connected"]:
+        health["status"] = "degraded"
+
     return health
 
 
-def get_companies_requirements() -> Dict[str, Any]:
-    """Fetches companies and their required skill levels from Supabase tables
-    and returns a normalized dict formatted for the frontend Talent Check module.
-    """
-    conn = get_db_connection()
-    cur = conn.cursor()
-    
-    query = """
-        SELECT 
-            c.company_id,
-            c.name AS company_name,
-            c.short_name,
-            c.category,
-            m.short_name AS skill_category_code,
-            l.required_level
-        FROM companies c
-        JOIN company_skill_levels l ON c.company_id = l.company_id
-        JOIN skill_set_master m ON l.skill_set_id = m.skill_set_id
-        ORDER BY c.company_id, m.short_name;
-    """
-    cur.execute(query)
-    rows = cur.fetchall()
-    conn.close()
-    
-    companies_map: Dict[int, Dict[str, Any]] = {}
-    for cid, name, short_name, category, cat_code, req_level in rows:
-        if cid not in companies_map:
-            companies_map[cid] = {
-                "company_id": str(cid),
-                "company_name": name,
-                "short_name": short_name or name,
-                "category": category,
-                "skillsets": {},
-            }
-        companies_map[cid]["skillsets"][cat_code] = req_level
-
-    return {
-        "version": "1.0",
-        "source": "supabase",
-        "companies": list(companies_map.values())
-    }
+def reset_client():
+    """Reset cached client instance for testing."""
+    global _client_instance
+    _client_instance = None

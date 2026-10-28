@@ -44,13 +44,24 @@ export function normalizeProfile(raw) {
   };
 }
 
+const stripOrigin = (item) => {
+  if (!item || typeof item !== 'object') return item;
+  const { origin: _o, ...clean } = item;
+  return clean;
+};
+
 // `origin` is a frontend-only provenance marker (extracted / edited / manual).
 // It is not part of the agreed contract, so it is stripped before sending.
 export function toApiProfile(profile) {
   const { created_at: _c, updated_at: _u, ...rest } = profile;
   return {
     ...rest,
-    skills: (profile.skills || []).map(({ origin: _o, ...s }) => s),
+    skills: (profile.skills || []).map(stripOrigin),
+    education: (profile.education || []).map(stripOrigin),
+    projects: (profile.projects || []).map(stripOrigin),
+    internships: (profile.internships || []).map(stripOrigin),
+    hackathons: (profile.hackathons || []).map(stripOrigin),
+    certifications: (profile.certifications || []).map(stripOrigin),
   };
 }
 
@@ -121,7 +132,7 @@ export const profileService = {
 
   async remove(profileId) {
     if (getDataMode() === 'api') {
-      throw new ApiError('Deleting profiles is not part of the agreed API contract yet.', { code: 'unsupported' });
+      return apiClient.delete(ENDPOINTS.profile(profileId));
     }
     await tick();
     local.remove(profileId);

@@ -299,7 +299,8 @@
   position: relative;
   height: 8px;
   border-radius: 999px;
-  background: #e8edf4;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
   margin-top: 6px;
 }
 
@@ -326,7 +327,7 @@
   width: 2px;
   height: 16px;
   margin-left: -1px;
-  background: var(--navy);
+  background: var(--text);
   border-radius: 1px;
 }
 
@@ -387,8 +388,8 @@
 }
 
 .workflow__step--done .workflow__link {
-  border-color: #bfe6e1;
-  background: #f6fbfa;
+  border-color: var(--teal);
+  background: var(--teal-50);
 }
 
 .workflow__text {

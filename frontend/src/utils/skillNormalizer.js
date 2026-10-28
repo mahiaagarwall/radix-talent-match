@@ -75,7 +75,7 @@ function cleanName(raw) {
     .toLowerCase()
     .replace(/\([^)]*\)/g, ' ') // drop parenthetical qualifiers e.g. "SQL (basic)"
     .replace(DEPTH_QUALIFIER, ' ')
-    .replace(/\b(strong|solid|practical|working knowledge of|knowledge of|experience with)\b/g, ' ')
+    .replace(/\b(strong|practical|working knowledge of|knowledge of|experience with)\b|\bsolid\b(?!\s*principles)/g, ' ')
     .replace(/&/g, ' and ')
     .replace(/[^a-z0-9+#/\- ]+/g, ' ')
     .replace(/\s+/g, ' ')

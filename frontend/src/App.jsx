@@ -1,8 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import { AppDataProvider } from './context/AppDataContext';
 import { ToastProvider } from './context/ToastContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { AppShell } from './components/layout/AppShell';
 import Dashboard from './pages/Dashboard';
+import CompanyDirectory from './pages/CompanyDirectory';
 import ResumeParsing from './pages/ResumeParsing';
 import ProfileBuilder from './pages/ProfileBuilder';
 import JDAnalytics from './pages/JDAnalytics';
@@ -18,6 +20,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<Dashboard />} />
+        <Route path="company-directory/*" element={<CompanyDirectory />} />
         <Route path="resume-parsing" element={<ResumeParsing />} />
         <Route path="profile-builder" element={<ProfileBuilder />} />
         <Route path="profile-builder/:profileId" element={<ProfileBuilder />} />
@@ -36,9 +39,11 @@ export function AppRoutes() {
 
 export function AppProviders({ children }) {
   return (
-    <ToastProvider>
-      <AppDataProvider>{children}</AppDataProvider>
-    </ToastProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <AppDataProvider>{children}</AppDataProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 

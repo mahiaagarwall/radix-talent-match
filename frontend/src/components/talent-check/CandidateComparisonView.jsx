@@ -1,4 +1,4 @@
-import { Users, Trophy, Award, TrendingUp, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Users, Trophy, Award, TrendingUp, AlertTriangle } from 'lucide-react';
 import { Card, CardHeader, CardBody } from '../ui/Card';
 import { Badge } from '../ui/Badges';
 import { ScoreRing, scoreBand } from '../ui/ScoreRing';

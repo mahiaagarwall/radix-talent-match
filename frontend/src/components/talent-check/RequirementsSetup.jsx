@@ -19,7 +19,7 @@ export function RequirementsSetup({ mode, onImport, onRetry, importing, importEr
           description={
             mode === 'api'
               ? 'The backend did not return company requirements from /api/companies. Load the official file on the FastAPI side, then retry.'
-              : 'This file was not included in the hackathon starter ZIP, and RADIX Talent Match will not invent company levels. Ask the facilitator for the official snapshot (participant brief, page 11).'
+              : 'This file was not included in the hackathon starter ZIP, and PARALLAX will not invent company levels. Ask the facilitator for the official snapshot (participant brief, page 11).'
           }
           actions={
             <>

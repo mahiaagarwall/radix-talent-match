@@ -11,6 +11,7 @@ import json
 import uuid
 from typing import Dict, Any, List, Optional
 from app.db import get_db_connection
+from app.db.profiles import profile_repository
 
 # Built-in local profile fixtures corresponding to the 4 sample resumes
 LOCAL_PROFILE_FIXTURES: List[Dict[str, Any]] = [
@@ -257,16 +258,27 @@ def _find_in_supabase(profile_id: str) -> Optional[Dict[str, Any]]:
 
 
 def get_candidate_profile(profile_id: str) -> Dict[str, Any]:
-    """Retrieves candidate profile using the dual-source strategy (Supabase first, local fixtures fallback)."""
+    """Retrieves candidate profile using unified multi-source strategy:
+    1. Profile Builder repository (candidate_profiles table / in-memory store)
+    2. Supabase parsed_resumes table
+    3. Local fixtures fallback
+    """
     if not profile_id or not str(profile_id).strip():
         raise ValueError("Profile ID must not be empty.")
 
-    # 1. Supabase query
+    # 1. Profile Builder repository
+    repo_profile = profile_repository.get_by_id(profile_id)
+    if repo_profile:
+        dump = repo_profile.model_dump()
+        dump["profile_id"] = str(dump["profile_id"])
+        return dump
+
+    # 2. Supabase parsed_resumes query
     db_profile = _find_in_supabase(profile_id)
     if db_profile:
         return db_profile
 
-    # 2. Local fixtures fallback
+    # 3. Local fixtures fallback
     local_profile = _find_in_local_fixtures(profile_id)
     if local_profile:
         return local_profile
@@ -275,9 +287,20 @@ def get_candidate_profile(profile_id: str) -> Dict[str, Any]:
 
 
 def list_candidate_profiles() -> List[Dict[str, Any]]:
-    """Returns list of all available candidate profiles across Supabase and fixtures."""
+    """Returns list of all available candidate profiles across Profile Builder, Supabase and fixtures."""
     profiles: List[Dict[str, Any]] = []
     seen_names = set()
+
+    # 1. Profile Builder repository profiles
+    for p in profile_repository.list_all():
+        p_dump = p.model_dump()
+        profiles.append({
+            "profile_id": str(p_dump["profile_id"]),
+            "name": p_dump["name"],
+            "headline": p_dump.get("headline", ""),
+            "source": "profile_builder",
+        })
+        seen_names.add(p_dump["name"].lower())
 
     # 1. Supabase profiles
     try:

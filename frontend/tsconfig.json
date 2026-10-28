@@ -1,0 +1,21 @@
+{
+  // Type-checks the TypeScript Company Directory feature and its tests (npm run typecheck).
+  // The rest of the frontend is JavaScript and is checked by ESLint.
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": { "@cd/*": ["./src/features/company-directory/*"] },
+    "types": ["vitest/globals", "@testing-library/jest-dom", "vite/client"]
+  },
+  "include": ["src/features/company-directory", "src/components/ui/AnimatedParticleBackground.d.ts", "tests/companyDirectory"]
+}

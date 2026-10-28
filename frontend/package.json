@@ -5,18 +5,25 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -p tsconfig.json && vite build",
+    "typecheck": "tsc -p tsconfig.json",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.5.0",
+    "@supabase/supabase-js": "~2.109.0",
+    "@tanstack/react-query": "^5.105.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
-    "recharts": "^2.13.3"
+    "recharts": "^2.13.3",
+    "tailwind-merge": "^2.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
@@ -24,6 +31,8 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.15.0",
     "eslint-plugin-react": "^7.37.2",
@@ -31,6 +40,8 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
     "jsdom": "^25.0.1",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
     "vite": "^5.4.11",
     "vitest": "^2.1.8"
   }

@@ -1,4 +1,5 @@
 import {
+  Building2,
   LayoutDashboard,
   FileSearch,
   UserRoundPen,
@@ -14,7 +15,10 @@ import {
 export const NAV_GROUPS = [
   {
     label: 'Overview',
-    items: [{ to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true }],
+    items: [
+      { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
+      { to: '/company-directory', label: 'Company Directory', icon: Building2 },
+    ],
   },
   {
     label: 'Workflow',
@@ -35,7 +39,11 @@ export const NAV_GROUPS = [
   },
 ];
 
+// More specific paths first: titleForPath returns the first match.
 const TITLES = [
+  ['/company-directory/company/intelligence', 'Company Intelligence'],
+  ['/company-directory/company/skills', 'Skill Intelligence'],
+  ['/company-directory', 'Company Directory'],
   ['/resume-parsing', 'Resume Parsing'],
   ['/profile-builder', 'Profile Builder'],
   ['/jd-analytics', 'JD Analytics'],
@@ -54,4 +62,13 @@ export function titleForPath(pathname) {
 export function sectionForPath(pathname) {
   const hit = TITLES.find(([p]) => pathname.startsWith(`${p}/`));
   return hit ? { to: hit[0], label: hit[1] } : null;
+}
+
+// Breadcrumb label for the current page under a section: the page's own title when it has one
+// (e.g. "Skill Intelligence"), otherwise "Details" (e.g. /profile-builder/:id).
+export function detailLabelForPath(pathname) {
+  const section = sectionForPath(pathname);
+  if (!section) return titleForPath(pathname);
+  const own = TITLES.find(([p]) => pathname === p);
+  return own ? own[1] : 'Details';
 }

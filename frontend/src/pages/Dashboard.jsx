@@ -87,9 +87,9 @@ export default function Dashboard() {
   return (
     <>
       <PageHeader
-        eyebrow="RADIX Talent Match"
-        title="Welcome to RADIX Talent Match"
-        description="Parse job descriptions and resumes, build reusable candidate profiles, check company-level readiness across 12 RADIX skillsets, and match candidates to specific jobs — with evidence behind every score."
+        eyebrow="PARALLAX · TALENT INTELLIGENCE"
+        title="See Talent in True Depth."
+        description="Analyze job descriptions, uncover candidate skills, assess technical readiness, and discover the right talent for every role — with evidence behind every match."
         actions={
           mode === 'demo' && !hasSamples && !isEmpty ? (
             <Button icon={Database} onClick={loadSamples}>
@@ -193,8 +193,8 @@ export default function Dashboard() {
                   <EmptyState compact title="No profiles yet" actions={<Button size="sm" to="/resume-parsing">Upload a resume</Button>} />
                 ) : (
                   <ul>
-                    {profiles.items.slice(0, 5).map((p) => (
-                      <li key={p.profile_id}>
+                    {profiles.items.slice(0, 5).map((p, idx) => (
+                      <li key={p.profile_id || `prf-${idx}`}>
                         <Link to={`/profile-builder/${p.profile_id}`} className="list-item">
                           <span className="avatar" aria-hidden="true">
                             {initials(p.name)}
@@ -205,7 +205,7 @@ export default function Dashboard() {
                               {pluralize((p.skills || []).length, 'skill')} · {formatRelative(p.updated_at)}
                             </p>
                           </div>
-                          {p.profile_id.startsWith('prf_sample_') && <DemoBadge>Sample</DemoBadge>}
+                          {p.profile_id && p.profile_id.startsWith('prf_sample_') && <DemoBadge>Sample</DemoBadge>}
                         </Link>
                       </li>
                     ))}
@@ -228,8 +228,8 @@ export default function Dashboard() {
                   <EmptyState compact title="No job descriptions yet" actions={<Button size="sm" to="/jd-analytics">Analyze a JD</Button>} />
                 ) : (
                   <ul>
-                    {jds.items.slice(0, 5).map((j) => (
-                      <li key={j.jd_id}>
+                    {jds.items.slice(0, 5).map((j, idx) => (
+                      <li key={j.jd_id || `jd-${idx}`}>
                         <Link to={`/jd-analytics/${j.jd_id}`} className="list-item">
                           <div className="list-item__main">
                             <p className="list-item__title">{j.role}</p>
@@ -260,9 +260,9 @@ export default function Dashboard() {
                   <EmptyState compact title="No assessments yet" actions={<Button size="sm" to="/skill-matching">Run a match</Button>} />
                 ) : (
                   <ul>
-                    {results.items.slice(0, 5).map((r) => (
-                      <li key={r.result_id}>
-                        <Link to={`/results/${r.result_id}`} className="list-item">
+                    {results.items.slice(0, 5).map((r, idx) => (
+                      <li key={r.result_id || r.match_id || `res-${idx}`}>
+                        <Link to={`/results/${r.result_id || r.match_id}`} className="list-item">
                           <div className="list-item__main">
                             <p className="list-item__title">{r.candidate_name}</p>
                             <p className="list-item__meta">{r.type === 'talent_check' ? `Talent Check · ${r.company}` : `Skill Match · ${r.role}`}</p>

@@ -19,6 +19,10 @@ export default function ResultDetail() {
     let cancelled = false;
     setResult(null);
     setError(null);
+    if (!resultId || resultId === 'undefined') {
+      setError(new Error('Invalid or missing result ID.'));
+      return;
+    }
     resultsService
       .get(resultId)
       .then((r) => !cancelled && setResult(r))

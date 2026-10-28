@@ -7,10 +7,11 @@ import { generateId, nowIso } from '../utils/format';
 
 const local = createLocalCollection(KEYS.results, 'result_id');
 
-export function normalizeResult(raw) {
+export function normalizeResult(raw, index = 0) {
   if (!raw) return null;
   const type = raw.type || (raw.readiness_score !== undefined ? 'talent_check' : 'skill_match');
-  return { ...raw, type, result_id: raw.result_id ?? raw.id };
+  const result_id = raw.result_id ?? raw.match_id ?? raw.id ?? `res_${index}`;
+  return { ...raw, type, result_id, match_id: raw.match_id ?? result_id };
 }
 
 export const resultsService = {
@@ -18,7 +19,7 @@ export const resultsService = {
     if (getDataMode() === 'api') {
       const body = await apiClient.get(ENDPOINTS.results);
       const items = Array.isArray(body) ? body : body?.items || body?.results || [];
-      return items.map(normalizeResult);
+      return items.map((item, idx) => normalizeResult(item, idx));
     }
     await tick();
     return local.list();

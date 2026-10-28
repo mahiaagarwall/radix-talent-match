@@ -1,19 +1,23 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { NAV_GROUPS } from '../../app/navigation';
 
 export function Sidebar({ collapsed, onToggleCollapsed, mobileOpen, onNavigate }) {
   return (
     <aside className={`sidebar${mobileOpen ? ' sidebar--open' : ''}`} id="app-sidebar" aria-label="Primary">
-      <div className="sidebar__brand">
-        <div className="brand-mark" aria-hidden="true">
-          R
-        </div>
+      <Link to="/" className="sidebar__brand" onClick={onNavigate} title="PARALLAX · Talent Intelligence">
+        <img
+          src="/assets/parallax-icon.png"
+          alt="PARALLAX"
+          className="brand-logo-icon"
+          width="32"
+          height="32"
+        />
         <div className="brand-text">
-          <strong>RADIX</strong>
-          <span>Talent Match</span>
+          <strong>PARALLAX</strong>
+          <span>TALENT INTELLIGENCE</span>
         </div>
-      </div>
+      </Link>
       <nav className="sidebar__nav" aria-label="Main navigation">
         {NAV_GROUPS.map((group) => (
           <div className="nav-group" key={group.label}>

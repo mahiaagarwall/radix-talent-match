@@ -52,8 +52,8 @@ export function ResultsTable({ rows, sort, onSort }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.result_id}>
+          {rows.map((r, idx) => (
+            <tr key={r.result_id || r.match_id || `res-${idx}`}>
               <td>
                 {r.type === 'talent_check' ? <Badge tone="indigo">Talent Check</Badge> : <Badge tone="teal">Skill Match</Badge>}
               </td>
@@ -76,7 +76,7 @@ export function ResultsTable({ rows, sort, onSort }) {
                 </div>
               </td>
               <td>
-                <Link to={`/results/${r.result_id}`} className="btn btn--secondary btn--sm" aria-label={`View details for ${r.candidate_name}, ${r.company}`}>
+                <Link to={`/results/${r.result_id || r.match_id}`} className="btn btn--secondary btn--sm" aria-label={`View details for ${r.candidate_name}, ${r.company}`}>
                   Details <ChevronRight size={14} aria-hidden="true" />
                 </Link>
               </td>

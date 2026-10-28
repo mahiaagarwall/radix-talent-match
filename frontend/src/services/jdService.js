@@ -80,8 +80,25 @@ export const jdService = {
       form.append('file', file);
       if (company) form.append('company', company);
       if (role) form.append('role', role);
-      const body = await apiClient.upload(ENDPOINTS.analyzeJd, form, { signal });
-      return { draft: normalizeJd({ ...body, source_file: body?.source_file || file.name }), origin: 'api', notice: null };
+      try {
+        const body = await apiClient.upload(ENDPOINTS.analyzeJd, form, { signal });
+        return { draft: normalizeJd({ ...body, source_file: body?.source_file || file.name }), origin: 'api', notice: null };
+      } catch (err) {
+        if (err?.status === 503) {
+          const fixture = findJdFixtureByFile(file.name);
+          if (fixture) {
+            const draft = fixtureDraft(fixture, file.name);
+            if (company) draft.company = company;
+            if (role) draft.role = role;
+            return {
+              draft,
+              origin: 'fixture',
+              notice: `LLM service returned 503. Loaded verified sample fixture for "${file.name}". To enable live AI extraction, set GROQ_API_KEY in backend/.env.`,
+            };
+          }
+        }
+        throw err;
+      }
     }
 
     await tick(700);
@@ -102,8 +119,22 @@ export const jdService = {
   async analyzeText({ text, company, role, signal }) {
     if (!String(text || '').trim()) throw new ApiError('Paste job description text or upload a file.', { code: 'validation' });
     if (getDataMode() === 'api') {
-      const body = await apiClient.post(ENDPOINTS.analyzeJd, { text, company, role }, { signal });
-      return { draft: normalizeJd({ ...body, company: body?.company || company, role: body?.role || role }), origin: 'api', notice: null };
+      try {
+        const body = await apiClient.post(ENDPOINTS.analyzeJd, { text, company, role }, { signal });
+        return { draft: normalizeJd({ ...body, company: body?.company || company, role: body?.role || role }), origin: 'api', notice: null };
+      } catch (err) {
+        if (err?.status === 503) {
+          const skills = scanJobDescriptionText(text);
+          if (skills.length) {
+            return {
+              draft: { ...emptyJd(), company, role, source_file: 'Pasted text', source_kind: 'keyword-scan', raw_text: text, skills },
+              origin: 'keyword-scan',
+              notice: `LLM service is offline (503). Extracted ${skills.length} skills using keyword scan. To enable live AI extraction, set GROQ_API_KEY in backend/.env.`,
+            };
+          }
+        }
+        throw err;
+      }
     }
     await tick(500);
     const skills = scanJobDescriptionText(text);

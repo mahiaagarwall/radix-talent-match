@@ -183,12 +183,13 @@ export default function ProfileBuilder() {
   };
 
   const remove = async () => {
-    if (!window.confirm(`Delete ${form.name}'s profile from local demo storage? Results that reference it are kept.`)) return;
+    const where = mode === 'demo' ? 'local demo storage' : 'the database';
+    if (!window.confirm(`Delete ${form.name}'s profile from ${where}? Results that reference it are kept.`)) return;
     try {
       await profileService.remove(form.profile_id);
       await reloadProfiles();
       setActiveProfileId(null);
-      notify('Profile deleted from local demo storage.', { tone: 'info' });
+      notify(`Profile deleted from ${where}.`, { tone: 'info' });
       navigate('/profile-builder');
     } catch (err) {
       notify(err.message, { tone: 'error' });
@@ -409,7 +410,7 @@ export default function ProfileBuilder() {
                     {form.skills.filter((s) => s.origin === 'edited').length} edited, {form.skills.filter((s) => s.origin === 'manual').length} manual)
                   </dd>
                 </dl>
-                {!isNew && mode === 'demo' && (
+                {!isNew && (
                   <Button variant="danger" size="sm" icon={Trash2} onClick={remove} style={{ marginTop: 16 }}>
                     Delete profile
                   </Button>

@@ -66,4 +66,5 @@ export const KEYS = {
   activeJd: 'active-jd-id',
   resumeDraft: 'resume-draft',
   sidebar: 'sidebar-collapsed',
+  theme: 'theme',
 };

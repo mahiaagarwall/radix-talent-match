@@ -56,7 +56,10 @@ export default function SkillMatching() {
       const result = await skillMatchService.run({ profileId, jdId });
       setCurrent(result);
       await reloadResults();
-      notify(`Match complete: ${result.match_score}/100.`, { tone: 'success' });
+      const scoreMsg = result.match_score !== null && result.match_score !== undefined
+        ? `Match complete: ${result.match_score}/100.`
+        : 'Match complete: Result calculated (not scored).';
+      notify(scoreMsg, { tone: 'success' });
     } catch (err) {
       setError(err);
     } finally {

@@ -7,7 +7,7 @@ import { SearchInput } from '../ui/Fields';
 import { EmptyState } from '../ui/States';
 import { ALL_CATEGORIES } from '../../data/categories';
 
-const fmt = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2));
+const fmt = (n) => (n === null || n === undefined ? '—' : Number.isInteger(n) ? String(n) : Number(n).toFixed(2));
 
 export function MatchTable({ skillResults }) {
   const [status, setStatus] = useState('all');
@@ -102,11 +102,11 @@ export function MatchTable({ skillResults }) {
                       <StatusPill status={r.status} />
                     </td>
                     <td style={{ minWidth: 200, maxWidth: 280 }}>
-                      {r.candidate_evidence.length === 0 ? (
+                      {(r.candidate_evidence || []).length === 0 ? (
                         <span className="muted">No evidence found</span>
                       ) : (
                         <ul className="stack" style={{ gap: 6 }}>
-                          {r.candidate_evidence.slice(0, 3).map((e, j) => (
+                          {(r.candidate_evidence || []).slice(0, 3).map((e, j) => (
                             <li key={j}>
                               <p className="small">
                                 <span className="strong">{e.skill_name}</span> <ConfidenceBadge value={e.confidence} />

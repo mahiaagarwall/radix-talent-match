@@ -82,6 +82,7 @@ export const apiClient = {
   get: (path, opts) => request(path, { ...opts, method: 'GET' }),
   post: (path, json, opts) => request(path, { ...opts, method: 'POST', json }),
   patch: (path, json, opts) => request(path, { ...opts, method: 'PATCH', json }),
+  delete: (path, opts) => request(path, { ...opts, method: 'DELETE' }),
   upload: (path, formData, opts) =>
     request(path, { timeoutMs: API_TIMEOUT_MS * 3, ...opts, method: 'POST', formData }),
 };

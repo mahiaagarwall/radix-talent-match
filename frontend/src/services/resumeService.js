@@ -29,6 +29,36 @@ export function normalizeParsedResume(raw) {
   };
 }
 
+// Backend error codes (backend/app/services/resume_text_extractor.py) → the codes
+// ResumeParsing.jsx uses to pick an error title.
+const BACKEND_ERROR_CODES = {
+  unsupported: 'unsupported',
+  missing: 'missing',
+  too_large: 'too_large',
+  unreadable: 'unreadable',
+  empty: 'unreadable',
+  encrypted: 'unreadable',
+  ocr_required: 'unreadable',
+};
+
+function parseError(err) {
+  const backendCode = err?.details?.code;
+  if (err instanceof ApiError && BACKEND_ERROR_CODES[backendCode]) {
+    return new ApiError(err.message, { status: err.status, code: BACKEND_ERROR_CODES[backendCode], details: err.details });
+  }
+  return err;
+}
+
+// One line under the result: whether it was saved, plus anything the parser could not find.
+function apiNotice(body) {
+  const parts = [];
+  if (body?.persistence?.message) parts.push(body.persistence.message);
+  if (Array.isArray(body?.warnings)) parts.push(...body.warnings);
+  return parts.length ? parts.join(' ') : null;
+}
+
+const SAVED_STATUSES = ['saved', 'updated'];
+
 export const resumeService = {
   /**
    * Parse an uploaded resume.
@@ -42,12 +72,22 @@ export const resumeService = {
     if (getDataMode() === 'api') {
       const form = new FormData();
       form.append('file', file);
-      const body = await apiClient.upload(ENDPOINTS.parseResume, form, { signal });
+      let body;
+      try {
+        body = await apiClient.upload(ENDPOINTS.parseResume, form, { signal });
+      } catch (err) {
+        throw parseError(err);
+      }
+      const saved = SAVED_STATUSES.includes(body?.persistence?.status);
       return {
         parsed: normalizeParsedResume(body),
         origin: 'api',
-        notice: null,
-        resumeReference: { ...meta, storage_path: body?.resume_reference || body?.storage_path || null, source: 'upload' },
+        notice: apiNotice(body),
+        resumeReference: {
+          ...meta,
+          storage_path: body?.resume_reference || body?.storage_path || null,
+          source: saved ? 'upload (saved to Supabase)' : 'upload',
+        },
       };
     }
 

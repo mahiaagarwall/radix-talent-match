@@ -40,8 +40,8 @@ export function GapCategoryChart({ results }) {
             <XAxis dataKey="code" tick={{ fontSize: 11, fill: CHART.ink, fontWeight: 600 }} axisLine={false} tickLine={false} />
             <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: CHART.axis }} axisLine={false} tickLine={false} />
             <Tooltip cursor={{ fill: 'rgba(51,70,168,0.06)' }} content={<ChartTooltip labelFormatter={(c) => `${c} — ${categoryName(c)}`} />} />
-            <Bar dataKey="missing" name="Missing" stackId="g" fill={CHART.missing} stroke="#fff" strokeWidth={2} maxBarSize={28} isAnimationActive={false} />
-            <Bar dataKey="partial" name="Partial" stackId="g" fill={CHART.partial} stroke="#fff" strokeWidth={2} radius={[4, 4, 0, 0]} maxBarSize={28} isAnimationActive={false} />
+            <Bar dataKey="missing" name="Missing" stackId="g" fill={CHART.missing} stroke="var(--surface)" strokeWidth={2} maxBarSize={28} isAnimationActive={false} />
+            <Bar dataKey="partial" name="Partial" stackId="g" fill={CHART.partial} stroke="var(--surface)" strokeWidth={2} radius={[4, 4, 0, 0]} maxBarSize={28} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
       </div>

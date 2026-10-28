@@ -47,7 +47,7 @@ export function ScoreTrendChart({ results }) {
                 cursor={{ stroke: CHART.axis, strokeDasharray: '3 3' }}
                 content={<ChartTooltip labelFormatter={(_, p) => p?.[0]?.payload?.label} valueFormatter={(v) => `${v}/100`} />}
               />
-              <Line type="linear" dataKey="score" name={name} stroke={CHART.required} strokeWidth={2} dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 5 }} isAnimationActive={false} />
+              <Line type="linear" dataKey="score" name={name} stroke={CHART.required} strokeWidth={2} dot={{ r: 4, strokeWidth: 2, fill: 'var(--surface)' }} activeDot={{ r: 5 }} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

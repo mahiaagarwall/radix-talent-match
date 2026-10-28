@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Server, FlaskConical, PlugZap, Sigma, Database, ShieldCheck, Download, Trash2, RotateCcw, Save } from 'lucide-react';
+import { Server, FlaskConical, PlugZap, Sigma, Database, ShieldCheck, Download, Trash2, RotateCcw, Save, Sun, Moon } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Card, CardHeader, CardBody, CardFooter } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -14,9 +14,11 @@ import { getScoringSettings, saveScoringSettings, resetScoringSettings, validate
 import { loadSampleWorkspace, resetDemoData } from '../services/sampleWorkspace';
 import { useAppData } from '../context/AppDataContext';
 import { useToast } from '../context/ToastContext';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Settings() {
   const { mode, profiles, jds, results, refreshAll } = useAppData();
+  const { theme, setTheme, isDark } = useTheme();
   const { notify } = useToast();
   const [health, setHealth] = useState({ status: 'idle' });
   const [scoring, setScoring] = useState(getScoringSettings);
@@ -63,7 +65,7 @@ export default function Settings() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `radix-talent-match-${mode}-export.json`;
+    a.download = `parallax-${mode}-export.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -115,6 +117,26 @@ export default function Settings() {
                   Every read and write goes to the FastAPI backend. If a request fails, the error is shown — the app never falls back to demo data.
                 </Alert>
               )}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader icon={isDark ? Moon : Sun} title="Appearance" subtitle="System interface theme" />
+          <CardBody>
+            <Segmented
+              label="Theme"
+              value={theme}
+              onChange={setTheme}
+              options={[
+                { value: 'light', label: 'Light' },
+                { value: 'dark', label: 'Dark' },
+              ]}
+            />
+            <div className="stack stack--sm" style={{ marginTop: 16 }}>
+              <Alert tone="neutral" title={`${theme === 'dark' ? 'Dark' : 'Light'} mode active`}>
+                Interface renders with {theme === 'dark' ? 'high-contrast dark palette' : 'crisp light palette'} and WCAG AA accessible contrast across all dashboards, tables, and radar charts.
+              </Alert>
             </div>
           </CardBody>
         </Card>

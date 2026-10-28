@@ -9,7 +9,7 @@ export default function NotFound() {
   const { pathname } = useLocation();
   return (
     <>
-      <PageHeader title="Page not found" description="The address you opened does not match any page in RADIX Talent Match." />
+      <PageHeader title="Page not found" description="The address you opened does not match any page in PARALLAX." />
       <Card>
         <EmptyState
           icon={Compass}

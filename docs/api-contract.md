@@ -1,181 +1,342 @@
-# RADIX Talent Match — API & Data Contract (draft for team lock-in)
+# RADIX Talent Match — Unified API & Data Contract
 
-Status: **proposed**. The participant brief (p. 9–10) says the shapes are "a starting point, not a final spec"
-and must be agreed by the team. This file records what the frontend currently sends and accepts, and
-every place it differs from the brief or the team guide. Contract owner: Akshat Mehra (Scrum Master).
+Status: **LOCKED & FULLY INTEGRATED across all 5 modules.**  
+Contract Owner & Lead Architect: **Akshat Mehra** (Scrum Master & Skill Matching Lead)  
+Last Updated: 27 October 2026
 
-## 1. Skill object (shared by every module)
+---
+
+## 1. Skill Object (Canonical Shared Contract)
+
+Every module uses this uniform schema for representing skills:
 
 ```json
 {
   "skill_name": "Python",
   "category_code": "COD",
-  "evidence": "Built applications using Python",
-  "confidence": "high"
+  "evidence": "Built full-stack applications using Python and FastAPI",
+  "confidence": "high",
+  "requirement": "required"
 }
 ```
 
-- `category_code` — exactly one of `COD DSA OOD APTI COMM AI CLOUD SQL SWE SYSD NETW OS OTHER`.
-- `confidence` — `high | medium | low`. **Extraction confidence**, i.e. how well the evidence supports the
-  skill. It is never a proficiency level.
-- Proposed optional extension on JD skills only: `"requirement": "required" | "preferred"`
-  ("Nice to Have" sections → `preferred`). Missing → treated as `required`.
-- Frontend-only field `origin` (`extracted | edited | manual`) exists on profile entries for the
-  "extracted vs. edited" UI. It is **stripped** before any API call.
+- `skill_name`: Canonical or normalized skill name (string).
+- `category_code`: Exactly one of the 13 approved RADIX categories:
+  `COD`, `DSA`, `OOD`, `APTI`, `COMM`, `AI`, `CLOUD`, `SQL`, `SWE`, `SYSD`, `NETW`, `OS`, `OTHER`.
+- `confidence`: Extraction certainty (`high` | `medium` | `low`).
+  - `high`: Directly listed with corroborating project/experience evidence.
+  - `medium`: Explicitly listed in a skills section.
+  - `low`: Inferred from context or weak mention.
+  - *Note: `confidence` reflects extraction certainty, never candidate proficiency level.*
+- `requirement`: `required` (default, weight 1.0) or `preferred` (weight 0.5 for nice-to-have skills).
+- `origin`: Frontend-only flag (`extracted` | `edited` | `manual`) stripped before API transmission.
 
-## 2. Endpoints
+---
 
-| Module | Method & path | Source | Request | Response |
-|---|---|---|---|---|
-| JD Analytics | `POST /api/jd/analyze` | guide | multipart `file` (+ optional `company`, `role`) **or** JSON `{text, company, role}` | JD record (§4) |
-| Resume Parsing | `POST /api/resumes/parse` | guide | multipart `file` | Parsed resume (§3) |
-| Profile Builder | `POST /api/profiles` | guide | Profile (§5) without `profile_id` | Saved profile with `profile_id` |
-| Profile Builder | `GET /api/profiles/{id}` | guide | — | Profile |
-| Profile Builder | `PATCH /api/profiles/{id}` | guide | Full profile | Updated profile |
-| Talent Check | `POST /api/talent-check` | guide | `{profile_id, company_id}` | Talent Check result (§7) |
-| Skill Matching | `POST /api/skill-match` | guide | `{profile_id, jd_id}` | Skill Match result (§6) |
-| Profiles list | `GET /api/profiles` | **proposed** | — | `Profile[]` (or `{items: []}`) |
-| JD list / get | `GET /api/jd`, `GET /api/jd/{id}` | **proposed** | — | JD record(s) |
-| JD save | `POST /api/jd`, `PATCH /api/jd/{id}` | **proposed** | JD record | JD record |
-| Companies | `GET /api/companies` | **proposed** | — | requirements file content (§8) |
-| Results | `GET /api/results`, `GET /api/results/{id}` | **proposed** | — | results |
-| Health | `GET /api/health` | **proposed** | — | any JSON, 200 |
+## 2. API Endpoints Overview
 
-All paths live in `frontend/src/app/config.js` (`ENDPOINTS`). Errors: FastAPI's default
-`{"detail": "..."}` or validation `{"detail": [{loc, msg}]}` are both rendered to the user.
+| Module | Method & Route | Request Format | Response Format |
+|---|---|---|---|
+| **System** | `GET /api/health` | — | `{"status": "ok", "service": "radix-talent-match", "modules": {...}}` |
+| **System** | `GET /health` | — | `{"status": "healthy", "service": "jd-analyzer"}` |
+| **Resume Parsing** | `POST /api/resumes/parse` | `multipart/form-data` (`file`) or `JSON` | Parsed Resume Object (§3) |
+| **Profile Builder** | `POST /api/profiles` | JSON Candidate Profile | Persisted Profile Object with `profile_id` (`prf_*`) |
+| **Profile Builder** | `GET /api/profiles` | — | `CandidateProfile[]` |
+| **Profile Builder** | `GET /api/profiles/{id}` | — | Candidate Profile Object (§4) |
+| **Profile Builder** | `PATCH /api/profiles/{id}`| JSON partial/full Profile | Updated Profile Object |
+| **Profile Builder** | `DELETE /api/profiles/{id}`| — | `{"status": "deleted", "profile_id": "..."}` |
+| **JD Analytics** | `POST /api/jd/analyze` | `multipart/form-data` (`file`) or `{text, company, role}` | Analyzed JD Object (§5) |
+| **JD Analytics** | `POST /api/jd` | JSON JD record | Persisted JD Record (`jd_*`) |
+| **JD Analytics** | `GET /api/jd` | — | `JobDescription[]` |
+| **JD Analytics** | `GET /api/jd/{id}` | — | Job Description Object |
+| **JD Analytics** | `PATCH /api/jd/{id}` | JSON partial/full JD | Updated Job Description Object |
+| **Talent Check** | `POST /api/talent-check` | `{"profile_id": "...", "company_id": "..."}` | Talent Check Result (§6) |
+| **Talent Check** | `POST /api/talent-check/compare` | `{"candidate_a_id": "...", "candidate_b_id": "...", "company_id": "..."}` | Candidate Comparison Result (§7) |
+| **Talent Check** | `GET /api/talent-check/companies` | — | Company requirement summaries |
+| **Talent Check** | `GET /api/talent-check/candidates` | — | Available candidate summaries |
+| **Talent Check** | `GET /api/companies` | — | Company requirement profiles dictionary |
+| **Skill Matching** | `POST /api/skill-match` | `{"profile_id": "...", "jd_id": "..."}` | Skill Match Result (§8) |
+| **Skill Matching** | `GET /api/skill-match/{id}` | — | Persisted Skill Match Result |
+| **Results** | `GET /api/results` | — | List of recent evaluation results |
 
-## 3. Parsed resume (`POST /api/resumes/parse`)
+---
+
+## 3. Parsed Resume Schema (`POST /api/resumes/parse`)
 
 ```json
 {
   "source_type": "resume",
   "source_file": "Ananya Rao.pdf",
   "name": "Ananya Rao",
-  "email": null,
-  "education": [{"degree": "B.Tech", "field": "...", "institution": "", "graduation_year": "2026", "grade": "CGPA 8.6 / 10"}],
-  "skills": [<skill>],
-  "projects": [{"title": "...", "description": "..."}],
-  "internships": [{"role": "...", "organization": "...", "description": "..."}],
-  "hackathons": [{"name": "...", "result": "...", "description": "..."}],
-  "certifications": [{"name": "...", "issuer": "..."}],
-  "achievements": ["..."],
-  "preferred_roles": ["..."],
-  "resume_reference": "supabase-storage-path"
+  "email": "ananya.rao@example.com",
+  "phone": "+91-9876543210",
+  "education": [
+    {
+      "degree": "B.Tech in Computer Science",
+      "institution": "National Institute of Technology",
+      "graduation_year": "2026",
+      "grade": "CGPA 8.6 / 10"
+    }
+  ],
+  "skills": [
+    {
+      "skill_name": "Python",
+      "category_code": "COD",
+      "evidence": "Engineered distributed systems in Python",
+      "confidence": "high"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Cloud-Native Microservices",
+      "description": "Architected event-driven microservices with Docker and Redis"
+    }
+  ],
+  "internships": [
+    {
+      "role": "Software Engineering Intern",
+      "organization": "Tech Innovations Ltd",
+      "description": "Developed REST APIs and optimized database queries"
+    }
+  ],
+  "hackathons": [
+    {
+      "name": "Smart India Hackathon",
+      "result": "Finalist",
+      "description": "Built real-time analytics dashboard"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Cloud Practitioner",
+      "issuer": "Amazon Web Services"
+    }
+  ],
+  "preferred_roles": ["Backend Developer", "Software Engineer"],
+  "resume_reference": {
+    "file_name": "Ananya Rao.pdf",
+    "file_type": "pdf",
+    "file_size": 113995,
+    "storage_path": null
+  }
 }
 ```
-Tolerated variations: `candidate: {...}` wrapper, `experience` instead of `internships`, string
-`education`, string certifications.
 
-## 4. JD record
+---
+
+## 4. Candidate Profile Schema (`/api/profiles`)
+
+Candidate Profile IDs use stable string identifiers prefixed with `prf_` (e.g. `prf_sample_ananya` or `prf_480026a760c4`).
 
 ```json
 {
-  "jd_id": "stable-id",
-  "source_type": "jd",
-  "source_file": "Google LLC - Software Engineer.pdf",
-  "company": "Google LLC",
-  "role": "Software Engineer (SWE)",
-  "role_category": "SDE · Product Engineering",
-  "location": "Bengaluru, India (Hybrid)",
-  "experience_requirements": "string or null",
-  "education_requirements": "string or null",
-  "skills": [<skill + requirement>]
-}
-```
-Matches the brief's "extracted skill list" plus `jd_id` and metadata. The frontend deduplicates
-skills by normalized name before saving.
-
-## 5. Candidate profile
-
-```json
-{
-  "profile_id": "stable-generated-id",
-  "name": "Candidate name",
-  "email": "candidate@example.com",
+  "profile_id": "prf_480026a760c4",
+  "name": "Ananya Rao",
+  "email": "ananya.rao@example.com",
   "education": [ ... ],
-  "skills": [<skill>],
+  "skills": [ ... ],
   "projects": [ ... ],
   "internships": [ ... ],
   "hackathons": [ ... ],
   "certifications": [ ... ],
-  "preferred_roles": ["..."],
-  "resume_reference": {"file_name": "...", "file_type": "pdf", "file_size": 113995, "storage_path": null, "source": "..."}
+  "preferred_roles": ["Software Engineer"],
+  "resume_reference": { ... },
+  "created_at": "2026-10-27T12:00:00Z",
+  "updated_at": "2026-10-27T12:00:00Z"
 }
 ```
 
-**Differences from the brief (p. 10) — to resolve as a team:**
-- Brief uses `cv_file` (string); frontend uses `resume_reference` (object). The frontend accepts
-  `cv_file` from the backend and maps it.
-- Brief has `education` as a string; frontend uses an array of objects (accepts a string).
-- Brief omits `profile_id` and `projects`; the guide requires both.
-- `name` is required. `email` is validated when present but **not required** — none of the four
-  supplied resumes contains an email address.
+---
 
-## 6. Skill Match result
+## 5. Job Description Schema (`/api/jd`)
+
+Job Description IDs use stable string identifiers prefixed with `jd_` or semantic slugs (e.g. `jd_sample_google_swe` or `google-swe`).
 
 ```json
 {
-  "result_id": "...", "type": "skill_match",
-  "profile_id": "...", "candidate_name": "...",
-  "jd_id": "...", "jd_source_file": "...", "company": "...", "role": "...",
-  "match_score": 0,
-  "matched_skills": ["..."], "partial_skills": ["..."], "missing_skills": ["..."],
-  "skill_results": [{
-    "skill_name": "...", "category_code": "...", "requirement": "required",
-    "weight": 1, "status": "matched|partial|missing", "match_value": 1,
-    "jd_evidence": "...", "candidate_evidence": [<skill>], "reason": "..."
-  }],
-  "counts": {"matched": 0, "partial": 0, "missing": 0},
-  "summary": "...", "recommendations": [{"skill_name": "...", "priority": "high", "text": "..."}],
-  "scoring": {"method": "...", "formula": "...", "partial_value": 0.5, "weights": {"required": 1, "preferred": 0.5}},
-  "created_at": "ISO-8601"
+  "jd_id": "jd_sample_google_swe",
+  "company": "Google LLC",
+  "role": "Software Engineer (SWE)",
+  "role_category": "SDE · Product Engineering",
+  "location": "Bengaluru, India (Hybrid)",
+  "employment_type": "Full-time",
+  "source_type": "jd",
+  "source_file": "Google LLC - Software Engineer.pdf",
+  "source_kind": "upload",
+  "experience_requirements": "0-2 years of relevant software engineering experience",
+  "education_requirements": "Bachelor's degree in Computer Science or related technical field",
+  "raw_text": "...",
+  "skills": [
+    {
+      "skill_name": "Data Structures & Algorithms",
+      "category_code": "DSA",
+      "evidence": "Proficiency in data structures and algorithmic complexity",
+      "confidence": "high",
+      "requirement": "required"
+    }
+  ],
+  "created_at": "2026-10-27T12:00:00Z",
+  "updated_at": "2026-10-27T12:00:00Z"
 }
 ```
-Superset of the brief's `{jd_source_file, match_score, matched_skills, missing_skills}`.
-Invariant (tested): `match_score == round(100 × Σ weight·match_value / Σ weight)` over `skill_results`.
 
-## 7. Talent Check result
+---
+
+## 6. Talent Check Result Schema (`POST /api/talent-check`)
+
+Evaluates broad company readiness across all 12 RADIX skillsets against `talent_check_company_skillsets.json`.
 
 ```json
 {
-  "result_id": "...", "type": "talent_check",
-  "profile_id": "...", "candidate_name": "...", "company_id": "...", "company": "...",
-  "readiness_score": 0,
-  "skillset_gap": [{
-    "category_code": "COD", "required_level": 7, "candidate_level": 6,
-    "candidate_level_is_estimate": true, "gap": true, "gap_size": 1,
-    "status": "meets|close|gap|no-evidence|not-assessed",
-    "uncertainty": "low|medium|high", "evidence": [<skill>]
-  }],
-  "strongest": ["COD"], "priority_gaps": ["APTI"],
-  "recommendations": [{"category_code": "APTI", "text": "..."}],
-  "summary": "...", "requirements_source": {"file": "...", "synthetic": false},
-  "created_at": "ISO-8601"
+  "result_id": "tc_res_8df7a9b1",
+  "type": "talent_check",
+  "profile_id": "prf_sample_ananya",
+  "candidate_name": "Ananya Rao",
+  "company_id": "google",
+  "company": "Google LLC (Subsidiary of Alphabet Inc.)",
+  "readiness_score": 47,
+  "skillset_gap": [
+    {
+      "category_code": "COD",
+      "category_name": "Coding",
+      "required_level": 8,
+      "candidate_level": 8,
+      "candidate_level_is_estimate": true,
+      "gap": false,
+      "gap_size": 0,
+      "status": "meets",
+      "uncertainty": "low",
+      "evidence": [ ... ]
+    }
+  ],
+  "strongest": ["System Design", "Coding", "Operating Systems"],
+  "priority_gaps": ["Aptitude", "Cloud", "SQL", "Artificial Intelligence"],
+  "recommendations": [
+    {
+      "category_code": "APTI",
+      "text": "Address priority gap in Aptitude: Google LLC requires level 8, candidate currently estimated at level 0."
+    }
+  ],
+  "summary": "Ananya Rao achieves a readiness score of 47/100 against Google LLC.",
+  "requirements_source": {
+    "file": "talent_check_company_skillsets.json",
+    "synthetic": false
+  },
+  "created_at": "2026-10-27T12:00:00Z"
 }
 ```
-Superset of the brief's `{company, skillset_gap[{category_code, required_level, candidate_level, gap}], readiness_score}`.
-Always 12 rows (the twelve RADIX skillsets; OTHER is not scored).
 
-## 8. `talent_check_company_skillsets.json` (NOT in the starter pack)
+---
 
-The official file was not in `Talent Match Hackathon.zip`. The brief says to ask the facilitator.
-Until its real shape is known, the frontend parser (`src/utils/companyRequirements.js`) accepts:
+## 7. Talent Check Comparison Schema (`POST /api/talent-check/compare`)
+
+Side-by-side comparison of two candidates against the same company requirements:
 
 ```json
-{ "companies": [ { "company_id": "google", "company_name": "Google LLC",
-                   "skillsets": { "COD": 8, "DSA": 9, "...": 0 } } ] }
-```
-```json
-{ "Google LLC": { "COD": 8, "DSA": 9 } }
-```
-```json
-[ { "name": "Google LLC", "levels": [ { "category_code": "COD", "required_level": 8 } ] } ]
+{
+  "company_name": "Google LLC (Subsidiary of Alphabet Inc.)",
+  "candidate_a": {
+    "candidate_name": "Ananya Rao",
+    "readiness_score": 47,
+    "strongest": ["System Design", "Coding", "Operating Systems"],
+    "priority_gaps": ["Aptitude", "Cloud", "SQL", "Artificial Intelligence"]
+  },
+  "candidate_b": {
+    "candidate_name": "Karthik Subramaniam",
+    "readiness_score": 30,
+    "strongest": ["SQL", "Artificial Intelligence", "Coding"],
+    "priority_gaps": ["Data Structures & Algorithms", "Cloud", "Software Engineering", "Networking"]
+  },
+  "score_difference": 17,
+  "leader": "candidate_a",
+  "overall_explanation": "Ananya Rao leads with 47/100 readiness vs Karthik Subramaniam's 30/100 (+17 pts higher)...",
+  "category_comparisons": [
+    {
+      "category_code": "COD",
+      "category_name": "Coding",
+      "required_level": 8,
+      "candidate_a_level": 8,
+      "candidate_b_level": 6,
+      "difference": 2,
+      "leader": "candidate_a",
+      "explanation": "Ananya Rao leads in Coding (level 8/10 vs Karthik Subramaniam's 6/10; required: 8/10)..."
+    }
+  ]
+}
 ```
 
-- Level keys may also be `skill_levels | requirements | expected_levels | levels | skills`.
-- Categories may be codes or full names ("Coding").
-- Levels must be numbers 0–10 (the brief uses 1–10). Invalid entries are skipped with a warning,
-  never guessed. Categories absent from the file show as "Not in file" and are excluded from the score.
-- A top-level or per-company `"synthetic": true` flag shows a persistent warning on every result.
+---
 
-If the official shape differs, extend `parseCompanyRequirements` — nothing else needs to change.
+## 8. Skill Match Result Schema (`POST /api/skill-match`)
+
+Deterministic job-specific skill matching evaluating candidate skills against specific JD requirements:
+
+```json
+{
+  "match_id": "7f847ac8-3b1f-4d92-91d1-6d7c8192a543",
+  "result_id": "7f847ac8-3b1f-4d92-91d1-6d7c8192a543",
+  "type": "skill_match",
+  "profile_id": "prf_sample_ananya",
+  "candidate_name": "Ananya Rao",
+  "jd_id": "jd_sample_google_swe",
+  "jd_source_file": "Google LLC - Software Engineer.pdf",
+  "company": "Google LLC",
+  "role": "Software Engineer (SWE)",
+  "match_score": 96.15,
+  "scoring_version": "v1",
+  "scoring_status": "completed",
+  "matched_skills": [
+    "Data Structures & Algorithms",
+    "Object-Oriented Design",
+    "Operating Systems",
+    "System Design",
+    "Software Engineering Practices",
+    "Programming"
+  ],
+  "partial_skills": ["Communication"],
+  "missing_skills": [],
+  "skill_results": [
+    {
+      "skill_name": "Data Structures & Algorithms",
+      "category_code": "DSA",
+      "requirement": "required",
+      "weight": 1.0,
+      "status": "matched",
+      "match_value": 1.0,
+      "jd_evidence": "Proficiency in data structures and algorithmic complexity",
+      "candidate_evidence": [
+        {
+          "skill_name": "Data Structures & Algorithms",
+          "category_code": "DSA",
+          "evidence": "Solved 450+ LeetCode problems across graphs and DP",
+          "confidence": "high"
+        }
+      ],
+      "reason": "Direct canonical match with high-confidence evidence."
+    }
+  ],
+  "counts": {
+    "matched": 6,
+    "partial": 1,
+    "missing": 0
+  },
+  "summary": "Candidate matches 6 out of 7 required and preferred skills with a score of 96.15%.",
+  "recommendations": [
+    {
+      "skill_name": "Communication",
+      "priority": "medium",
+      "text": "Strengthen documented evidence for Communication to transition from partial to full match."
+    }
+  ],
+  "scoring": {
+    "method": "weighted_evidence_aware",
+    "formula": "round(100 * sum(w_i * m_i) / sum(w_i), 2)",
+    "partial_value": 0.5,
+    "weights": {
+      "required": 1.0,
+      "preferred": 0.5
+    }
+  },
+  "created_at": "2026-10-27T12:00:00Z"
+}
+```

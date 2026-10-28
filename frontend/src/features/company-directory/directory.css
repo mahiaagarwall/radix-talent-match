@@ -1,0 +1,165 @@
+/*
+ * Company Directory styles. Everything here is scoped to .cd-root so it cannot change the host app:
+ * - Tailwind preflight is disabled (tailwind.config.js); "@tailwind base" then only declares --tw-* variables.
+ * - Utilities are generated only from src/features/company-directory and compiled as ".cd-root .utility".
+ * - Tokens live on .cd-root (not :root) because the host defines --border, --surface, --navy... with other formats.
+ * - Dark mode follows the host ThemeContext: [data-theme="dark"] on <html>.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cd-root {
+  --background: 210 40% 98%;
+  --surface: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
+  --primary-hover: 224 76% 48%;
+  --primary-foreground: 0 0% 100%;
+  --indigo: 243 75% 59%;
+  --purple: 262 83% 58%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 19% 40%;
+  --accent: 214 100% 97%;
+  --accent-foreground: 221 83% 53%;
+  --subtle: 214 100% 97%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 142 76% 30%;
+  --warning: 32 95% 38%;
+  --error: 0 72% 45%;
+  --border: 214 32% 91%;
+  --input: 214 32% 85%;
+  --ring: 221 83% 53%;
+  --radius: 0.75rem;
+
+  --cat-super-dream: 262 83% 58%;
+  --cat-dream: 221 83% 53%;
+  --cat-standard: 142 76% 30%;
+  --cat-regular: 32 95% 38%;
+  --cat-all: 222 47% 11%;
+  --on-cat: 0 0% 100%;
+
+  --hero-bg: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(226 100% 97%) 55%, hsl(258 90% 96%) 100%);
+
+  color: hsl(var(--foreground));
+  font-family: var(--font);
+}
+
+[data-theme='dark'] .cd-root {
+  --background: 223 49% 8%;
+  --surface: 221 39% 11%;
+  --foreground: 210 40% 96%;
+  --card: 221 38% 15%;
+  --card-foreground: 210 40% 96%;
+  --primary: 213 94% 68%;
+  --primary-hover: 212 96% 78%;
+  --primary-foreground: 223 49% 8%;
+  --indigo: 234 89% 74%;
+  --purple: 255 92% 76%;
+  --secondary: 221 38% 15%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 221 38% 15%;
+  --muted-foreground: 215 20% 70%;
+  --accent: 226 57% 21%;
+  --accent-foreground: 213 94% 68%;
+  --subtle: 226 57% 21%;
+  --destructive: 0 91% 71%;
+  --destructive-foreground: 223 49% 8%;
+  --success: 142 69% 58%;
+  --warning: 43 96% 56%;
+  --error: 0 91% 71%;
+  --border: 216 32% 22%;
+  --input: 216 32% 28%;
+  --ring: 213 94% 68%;
+
+  --cat-super-dream: 255 92% 76%;
+  --cat-dream: 213 94% 68%;
+  --cat-standard: 142 69% 58%;
+  --cat-regular: 43 96% 56%;
+  --cat-all: 210 40% 96%;
+  --on-cat: 223 49% 8%;
+
+  /* Deep navy to blue-violet: the atmosphere the particle field sits on. */
+  --hero-bg: radial-gradient(120% 140% at 85% 0%, hsl(258 60% 22%) 0%, transparent 55%),
+    linear-gradient(160deg, hsl(228 64% 9%) 0%, hsl(232 55% 12%) 55%, hsl(250 48% 15%) 100%);
+}
+
+.cd-root .cd-hero {
+  background: var(--hero-bg);
+}
+
+/* Essential parts of Tailwind preflight, limited to the directory subtree. Lower specificity than
+   the generated utilities (".cd-root .x"), so utilities still win. */
+.cd-root *,
+.cd-root ::before,
+.cd-root ::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+.cd-root h1,
+.cd-root h2,
+.cd-root h3,
+.cd-root h4 {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  margin: 0;
+}
+.cd-root p,
+.cd-root dl,
+.cd-root dd,
+.cd-root ol,
+.cd-root ul {
+  margin: 0;
+}
+.cd-root ol,
+.cd-root ul {
+  list-style: none;
+  padding: 0;
+}
+.cd-root a,
+.cd-root a:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+.cd-root button {
+  background-color: transparent;
+  background-image: none;
+  padding: 0;
+  margin: 0;
+  text-transform: none;
+}
+.cd-root input {
+  margin: 0;
+}
+.cd-root input::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 1;
+}
+.cd-root input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.cd-root img {
+  max-width: 100%;
+  height: auto;
+}
+.cd-root code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

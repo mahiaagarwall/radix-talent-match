@@ -33,8 +33,13 @@ export function MatchResultView({ result }) {
             <ScoreRing score={result.match_score} label="Job match score" />
             <div className="result-hero__body">
               <div className="row">
-                <Badge tone={band.tone}>{band.label} match</Badge>
+                <Badge tone={band.tone}>{band.label}{result.match_score !== null && result.match_score !== undefined ? ' match' : ''}</Badge>
                 <Badge tone="outline">Skill Matching · job-specific</Badge>
+                {result.persisted ? (
+                  <Badge tone="teal">Supabase synced</Badge>
+                ) : result.persistence_error ? (
+                  <Badge tone="neutral" title={result.persistence_error}>Local / Unpersisted</Badge>
+                ) : null}
                 {isDemo && <DemoBadge>Illustrative demo scoring</DemoBadge>}
               </div>
               <h2 className="result-hero__title">

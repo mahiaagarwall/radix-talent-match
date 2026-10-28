@@ -44,7 +44,7 @@ export function CategoryBreakdownChart({ skillResults }) {
                 name={s.name}
                 stackId="a"
                 fill={s.color}
-                stroke="#fff"
+                stroke="var(--surface)"
                 strokeWidth={2}
                 radius={i === SERIES.length - 1 ? [0, 4, 4, 0] : 0}
                 maxBarSize={20}

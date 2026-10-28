@@ -9,7 +9,7 @@ import { computeScore } from '../src/utils/skillMatcher';
 
 describe('routing', () => {
   const ROUTES = [
-    ['/', /Welcome to RADIX Talent Match/],
+    ['/', /See Talent in True Depth/],
     ['/resume-parsing', /Resume Parsing/],
     ['/profile-builder', /Profile Builder/],
     ['/jd-analytics', /JD Analytics/],

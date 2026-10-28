@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, ChevronRight, FlaskConical, Server } from 'lucide-react';
+import { Menu, ChevronRight, FlaskConical, Server, Sun, Moon } from 'lucide-react';
 import { useAppData } from '../../context/AppDataContext';
-import { titleForPath, sectionForPath } from '../../app/navigation';
+import { useTheme } from '../../context/ThemeContext';
+import { detailLabelForPath, sectionForPath } from '../../app/navigation';
 import { initials } from '../../utils/format';
 import { GlobalSearch } from './GlobalSearch';
 import { IconButton } from '../ui/Button';
@@ -9,6 +10,7 @@ import { IconButton } from '../ui/Button';
 export function Topbar({ onOpenMenu, menuOpen }) {
   const { pathname } = useLocation();
   const { mode, activeProfile } = useAppData();
+  const { toggleTheme, isDark } = useTheme();
   const section = sectionForPath(pathname);
 
   return (
@@ -22,7 +24,7 @@ export function Topbar({ onOpenMenu, menuOpen }) {
         aria-controls="app-sidebar"
       />
       <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link to="/">RADIX</Link>
+        <Link to="/">PARALLAX</Link>
         <ChevronRight size={14} aria-hidden="true" />
         {section && (
           <>
@@ -31,12 +33,19 @@ export function Topbar({ onOpenMenu, menuOpen }) {
           </>
         )}
         <span className="breadcrumb__current" aria-current="page">
-          {section ? 'Details' : titleForPath(pathname)}
+          {detailLabelForPath(pathname)}
         </span>
       </nav>
       <div className="topbar__spacer" />
       <GlobalSearch />
       <div className="topbar__right">
+        <IconButton
+          icon={isDark ? Sun : Moon}
+          label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+        />
         <Link
           to="/settings"
           className={`badge mode-badge ${mode === 'demo' ? 'badge--demo' : 'badge--indigo'}`}
