@@ -56,22 +56,25 @@ describe('Career Copilot Services', () => {
 });
 
 describe('Job Finder UI Page', () => {
-  it('renders Job Finder and displays evaluated recommendations', async () => {
+  it('renders Job Finder and reports truthfully when directory data cannot be scored', async () => {
     setDataMode('demo');
     loadSampleWorkspace();
 
     renderApp('/job-finder');
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Job Finder' })).toBeInTheDocument();
-    expect(screen.getByLabelText(/Candidate Profile/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Find Matching Jobs/ })).toBeInTheDocument();
+    expect(await screen.findByLabelText(/Candidate Profile/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Find Matching Companies/ })).toBeInTheDocument();
 
-    // Verify recommendations appear
-    await waitFor(() => {
-      expect(screen.getByText(/Evaluated \d+ roles/)).toBeInTheDocument();
-    });
-
-    expect(screen.getAllByRole('button', { name: /Run Skill Match/ }).length).toBeGreaterThan(0);
+    // The default test directory's skill sets are not RADIX codes, so no company is scored
+    // and the page says so instead of inventing matches (ranking itself: tests/jobFinder.test.jsx).
+    await waitFor(
+      () => {
+        expect(screen.getByText(/No company could be assessed/)).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
+    expect(screen.queryByText(/Rank #/)).not.toBeInTheDocument();
   });
 });
 
@@ -83,6 +86,7 @@ describe('Resume Coach UI Page', () => {
     renderApp('/resume-coach');
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Resume Coach' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Bullet coach' }));
     expect(screen.getByText(/Strict Anti-Fabrication Guarantee/)).toBeInTheDocument();
 
     const coachBtn = screen.getByRole('button', { name: /Coach & Enhance Bullet/ });

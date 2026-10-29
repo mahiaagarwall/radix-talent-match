@@ -77,7 +77,6 @@ export default function SkillMatching() {
         eyebrow="Step 5 · Skill Matching"
         title="Skill Matching"
         description="Compare one saved candidate profile with one analyzed job description: a 0–100 match score with matched, partial and missing skills, evidence from both sides, and an explanation for every classification."
-        owner="Akshat Mehra"
       />
       <div className="stack">
         <DemoNotice>

@@ -49,9 +49,33 @@ function json(v: unknown): unknown {
 
 // ---------- fetchers ----------
 
+/** PostgREST returns at most this many rows per request (Supabase default max-rows). */
+export const PAGE_SIZE = 1000;
+
+type Row = Record<string, unknown>;
+interface PageResult {
+  data: Row[] | null;
+  error: { message: string } | null;
+  status: number;
+}
+
+/** Reads every row of a table, page by page, so the server's row cap never truncates the result. */
+async function selectAll(table: string, columns: string, orderBy: string[]): Promise<PageResult> {
+  const rows: Row[] = [];
+  for (let from = 0; ; from += PAGE_SIZE) {
+    let query = supabase.from(table).select(columns);
+    for (const col of orderBy) query = query.order(col);
+    const { data, error, status } = (await query.range(from, from + PAGE_SIZE - 1)) as unknown as PageResult;
+    if (error) return { data: null, error, status };
+    const page = data ?? [];
+    rows.push(...page);
+    if (page.length < PAGE_SIZE) return { data: rows, error: null, status };
+  }
+}
+
 export async function fetchCompanies(): Promise<CompanySummary[]> {
   requireConfigured();
-  const { data, error, status } = await supabase.from("company_json").select("company_id, short_json").order("company_id");
+  const { data, error, status } = await selectAll("company_json", "company_id, short_json", ["company_id"]);
   if (error) {
     // eslint-disable-next-line no-console
     console.error(`[company-directory] company_json on ${supabaseHost} failed (HTTP ${status}): ${error.message}`);
@@ -124,6 +148,81 @@ export async function fetchCompanySkills(companyId: number): Promise<CompanySkil
   for (const id of Object.keys(ladders)) ladders[Number(id)].sort((a, b) => a.level_number - b.level_number);
 
   return { skills: normalizeDashboardSkills(raw), topics: ladders };
+}
+
+export interface CompanyRequirementRow {
+  skillSetId: number;
+  name: string;
+  /** skill_set_master.short_name, e.g. "DSA" */
+  shortName: string;
+  requiredLevel: number;
+}
+
+export interface CompanyIntelligenceRecord {
+  summary: CompanySummary;
+  requirements: CompanyRequirementRow[];
+  /** full_json.tech_stack; null when it could not be read */
+  techStack: string | null;
+  /** full_json.hiring_velocity: hiring activity as reported in the directory, not a verified vacancy */
+  hiringSignal: string | null;
+}
+
+export interface AllCompanyIntelligence {
+  companies: CompanyIntelligenceRecord[];
+  /** Problems with optional fields that did not stop the load (shown as limitations). */
+  warnings: string[];
+}
+
+/**
+ * Every Company Directory company with its own Skill Intelligence rows, for Job Finder.
+ * Same tables and normalizers as the directory pages; each table is read in full (paginated)
+ * and rows are grouped by company_id, so one company's requirements never reach another.
+ */
+export async function fetchAllCompanyIntelligence(): Promise<AllCompanyIntelligence> {
+  requireConfigured();
+  const [summaries, levels, master, extras] = await Promise.all([
+    fetchCompanies(),
+    selectAll("company_skill_levels", "company_id, skill_set_id, required_level", ["company_id", "skill_set_id"]),
+    selectAll("skill_set_master", "skill_set_id, skill_set_name, short_name", ["skill_set_id"]),
+    selectAll(
+      "company_json",
+      "company_id, tech_stack:full_json->>tech_stack, hiring_velocity:full_json->>hiring_velocity",
+      ["company_id"],
+    ),
+  ]);
+  for (const r of [levels, master]) if (r.error) throw new Error(r.error.message);
+
+  const warnings: string[] = [];
+  if (extras.error) warnings.push("Company tech stacks and hiring signals could not be read, so they are not shown.");
+
+  const skillById = new Map(
+    (master.data ?? []).map((r) => [
+      Number(r.skill_set_id),
+      { name: asString(r.skill_set_name) || asString(r.short_name), shortName: asString(r.short_name) },
+    ]),
+  );
+  const levelsByCompany = new Map<number, CompanyRequirementRow[]>();
+  for (const r of levels.data ?? []) {
+    const companyId = Number(r.company_id);
+    const skillSetId = Number(r.skill_set_id);
+    if (!Number.isFinite(companyId) || !Number.isFinite(skillSetId)) continue;
+    const skill = skillById.get(skillSetId);
+    const list = levelsByCompany.get(companyId) ?? [];
+    list.push({ skillSetId, name: skill?.name ?? "", shortName: skill?.shortName ?? "", requiredLevel: Number(r.required_level) });
+    levelsByCompany.set(companyId, list);
+  }
+  const extrasById = new Map((extras.data ?? []).map((r) => [Number(r.company_id), r]));
+  const text = (v: unknown) => (extras.error ? null : asString(v) || null);
+
+  return {
+    companies: summaries.map((summary) => ({
+      summary,
+      requirements: levelsByCompany.get(summary.companyId) ?? [],
+      techStack: text(extrasById.get(summary.companyId)?.tech_stack),
+      hiringSignal: text(extrasById.get(summary.companyId)?.hiring_velocity),
+    })),
+    warnings,
+  };
 }
 
 // ---------- React Query hooks (QueryClient defaults: staleTime 5m, gcTime 10m, retry 1) ----------

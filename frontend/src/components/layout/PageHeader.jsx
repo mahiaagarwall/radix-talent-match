@@ -1,6 +1,6 @@
 import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 
-export function PageHeader({ eyebrow, title, description, actions, owner }) {
+export function PageHeader({ eyebrow, title, description, actions }) {
   useDocumentTitle(title);
   return (
     <header className="page-header">
@@ -8,7 +8,6 @@ export function PageHeader({ eyebrow, title, description, actions, owner }) {
         {eyebrow && <p className="page-header__eyebrow">{eyebrow}</p>}
         <h1>{title}</h1>
         {description && <p className="page-header__desc">{description}</p>}
-        {owner && <p className="xsmall muted" style={{ marginTop: 6 }}>Module owner: {owner}</p>}
       </div>
       {actions && <div className="page-header__actions">{actions}</div>}
     </header>

@@ -27,6 +27,7 @@ export const ENDPOINTS = {
   careerCopilotJobs: '/api/career-copilot/jobs/recommend',
   careerCopilotAvailableJobs: '/api/career-copilot/jobs/available',
   careerCopilotResumeCoach: '/api/career-copilot/resume-coach/improve',
+  careerCopilotGapAnalysis: '/api/career-copilot/resume-coach/gap-analysis',
 };
 
 export const REQUIREMENTS_FILE_PATH = '/data/talent_check_company_skillsets.json';

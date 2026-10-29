@@ -7,7 +7,7 @@ Defines request and response models for:
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field
 
 
@@ -66,3 +66,100 @@ class ResumeCoachResponse(BaseModel):
     follow_up_questions: List[str] = Field(default_factory=list)
     rule_based_fallback: bool = False
     model_used: Optional[str] = None
+
+
+# ── Resume Coach: resume vs. one job description (gap analysis) ─────────────
+
+Classification = Literal["matched", "partial", "missing", "unverified"]
+Importance = Literal["mandatory", "preferred"]
+RequirementKind = Literal[
+    "technical_skill", "tool", "education", "experience", "certification",
+    "responsibility", "domain", "soft_skill", "other",
+]
+GapType = Literal["none", "skill_gap", "presentation_gap", "information_gap"]
+
+
+class LLMGapRequirement(BaseModel):
+    """One job requirement as returned by the LLM (validated before use)."""
+    requirement: str = Field(..., min_length=1)
+    kind: RequirementKind = "other"
+    importance: Importance
+    jd_evidence: str = ""
+    classification: Classification
+    resume_evidence: List[str] = Field(default_factory=list)
+    resume_section: Optional[str] = None
+    missing_information: str = ""
+    gap_type: GapType = "none"
+    next_step: str = ""
+
+
+class LLMBulletImprovement(BaseModel):
+    original_text: str = Field(..., min_length=1)
+    problem: str
+    recommendation: str
+    improved_example: str
+    alignment: str = ""
+    follow_up_question: Optional[str] = None
+
+
+class LLMActionItem(BaseModel):
+    priority: Literal[1, 2, 3]
+    action: str = Field(..., min_length=1)
+    requirement: Optional[str] = None
+
+
+class LLMGapAnalysis(BaseModel):
+    summary: str = ""
+    requirements: List[LLMGapRequirement] = Field(..., min_length=1)
+    bullet_improvements: List[LLMBulletImprovement] = Field(default_factory=list)
+    action_plan: List[LLMActionItem] = Field(default_factory=list)
+    follow_up_questions: List[str] = Field(default_factory=list)
+
+
+class GapRequirement(LLMGapRequirement):
+    jd_evidence_verified: bool = False
+    note: Optional[str] = None
+
+
+class GapCounts(BaseModel):
+    matched: int = 0
+    partial: int = 0
+    missing: int = 0
+    unverified: int = 0
+    mandatory: int = 0
+    preferred: int = 0
+
+
+class GapAlignment(BaseModel):
+    score: Optional[int] = Field(None, description="0-100 resume-to-job alignment; null when the data cannot support one")
+    method: str
+    explanation: str
+
+
+class GapSourceInfo(BaseModel):
+    kind: str
+    label: Optional[str] = None
+    characters: int
+
+
+class GapSafeguards(BaseModel):
+    evidence_quotes_removed: int = 0
+    requirements_downgraded: int = 0
+    requirements_dropped: int = 0
+    suggestions_removed: int = 0
+    notes: List[str] = Field(default_factory=list)
+
+
+class ResumeGapAnalysisResponse(BaseModel):
+    resume: GapSourceInfo
+    job: GapSourceInfo
+    summary: str
+    requirements: List[GapRequirement]
+    counts: GapCounts
+    alignment: GapAlignment
+    bullet_improvements: List[LLMBulletImprovement] = Field(default_factory=list)
+    action_plan: List[LLMActionItem] = Field(default_factory=list)
+    follow_up_questions: List[str] = Field(default_factory=list)
+    safeguards: GapSafeguards
+    model_used: str
+    disclaimer: str

@@ -317,3 +317,46 @@ def test_api_talent_check_not_found(client):
     # Invalid company
     res_c = client.post("/api/talent-check", json={"profile_id": "Ananya Rao", "company_id": "nonexistent-company-999"})
     assert res_c.status_code == 404
+
+
+# -----------------------------------------------------------------------------
+# 6. Dashboard / Results integration: Talent Check runs reach GET /api/results
+# -----------------------------------------------------------------------------
+
+@pytest.fixture
+def empty_talent_check_store():
+    from app.db.talent_check_repository import repository
+    repository.clear()
+    yield repository
+    repository.clear()
+
+
+def test_talent_check_run_is_listed_in_results(client, empty_talent_check_store):
+    run = client.post("/api/talent-check", json={"profile_id": "Ananya Rao", "company_id": "Google"}).json()
+
+    listed = client.get("/api/results").json()
+    talent_checks = [r for r in listed if r.get("type") == "talent_check"]
+    assert [r["result_id"] for r in talent_checks] == [run["result_id"]]
+    row = talent_checks[0]
+    # The Dashboard reads exactly these fields; they must equal the run's values.
+    for key in ("profile_id", "candidate_name", "company_id", "company", "readiness_score", "created_at"):
+        assert row[key] == run[key]
+    assert row["status"] == "completed"
+
+
+def test_talent_check_result_detail_and_ordering(client, empty_talent_check_store):
+    first = client.post("/api/talent-check", json={"profile_id": "Ananya Rao", "company_id": "Google"}).json()
+    second = client.post("/api/talent-check", json={"profile_id": "Karthik Subramaniam", "company_id": "Oracle"}).json()
+
+    detail = client.get(f"/api/results/{second['result_id']}")
+    assert detail.status_code == 200
+    assert detail.json()["candidate_name"] == "Karthik Subramaniam"
+    assert detail.json()["skillset_gap"] == second["skillset_gap"]
+
+    ids = [r["result_id"] for r in client.get("/api/results").json() if r.get("type") == "talent_check"]
+    assert ids == [second["result_id"], first["result_id"]]  # newest first
+
+
+def test_failed_talent_check_is_not_stored(client, empty_talent_check_store):
+    client.post("/api/talent-check", json={"profile_id": "nonexistent-user-123", "company_id": "Google"})
+    assert [r for r in client.get("/api/results").json() if r.get("type") == "talent_check"] == []

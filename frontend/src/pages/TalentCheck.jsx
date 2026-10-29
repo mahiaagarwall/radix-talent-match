@@ -147,7 +147,6 @@ export default function TalentCheck() {
         eyebrow="Step 4 · Talent Check"
         title="Talent Check"
         description="Estimate how ready a candidate is for one company’s expectations across all 12 RADIX skillsets. This is company-level readiness — separate from job-specific Skill Matching."
-        owner="Krishna Khanna"
       />
       <div className="stack">
         <DemoNotice>Candidate levels are estimated from profile evidence with a documented demo rubric. Company levels are used exactly as supplied.</DemoNotice>

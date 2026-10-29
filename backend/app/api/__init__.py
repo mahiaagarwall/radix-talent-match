@@ -21,6 +21,7 @@ from app.api.skill_matching import router as skill_matching_router
 from app.api.career_copilot import router as career_copilot_router
 from app.services.company_requirements import load_company_skillsets
 from app.db.skill_match_repository import repository as skill_match_repo
+from app.db.talent_check_repository import repository as talent_check_repo
 
 router = APIRouter()
 
@@ -56,9 +57,15 @@ def get_companies_endpoint():
     tags=["Results"],
 )
 def list_results_endpoint(limit: int = 50):
-    """Returns combined assessment results (skill matches and talent checks)."""
+    """Returns combined assessment results (skill matches and talent checks), newest first."""
     matches = skill_match_repo.list_match_results(limit=limit)
-    return matches
+    talent_checks = talent_check_repo.list(limit=limit)
+    combined = sorted(
+        [*matches, *talent_checks],
+        key=lambda r: str(r.get("created_at") or ""),
+        reverse=True,
+    )
+    return combined[:limit]
 
 
 @router.get(
@@ -68,6 +75,9 @@ def list_results_endpoint(limit: int = 50):
 )
 def get_result_endpoint(result_id: str):
     """Retrieve an assessment result by result_id or match_id."""
+    talent_check = talent_check_repo.get(result_id)
+    if talent_check:
+        return talent_check
     res = skill_match_repo.get_match_result(result_id)
     if res:
         res_copy = dict(res)

@@ -145,7 +145,6 @@ function JdAnalyze() {
         eyebrow="Step 1 · JD Analytics"
         title="JD Analytics"
         description="Turn a job description into a normalized list of required skills — each with one RADIX category, an evidence phrase and an extraction confidence."
-        owner="Krishna Pandey"
         actions={
           status !== 'idle' && (
             <Button icon={RotateCcw} onClick={reset}>
@@ -404,7 +403,6 @@ function JdDetail({ jdId }) {
         eyebrow="JD Analytics · Saved job description"
         title={jd ? jd.role : 'Job description'}
         description={jd ? `${jd.company}${jd.location ? ` · ${jd.location}` : ''}` : 'Loading the analyzed job description.'}
-        owner="Krishna Pandey"
         actions={
           jd && !editing ? (
             <>

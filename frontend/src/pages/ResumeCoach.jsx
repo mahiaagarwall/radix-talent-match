@@ -14,6 +14,8 @@ import { PageHeader } from '../components/layout/PageHeader';
 import { Card, CardHeader, CardBody } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { LoadingState, ErrorState } from '../components/ui/States';
+import { Segmented } from '../components/ui/Segmented';
+import { GapAnalysis } from '../components/resume-coach/GapAnalysis';
 
 const SAMPLE_WEAK_BULLETS = [
   {
@@ -36,6 +38,7 @@ const SAMPLE_WEAK_BULLETS = [
 
 export default function ResumeCoach() {
   const { profiles, jds } = useAppData();
+  const [tab, setTab] = useState('gap');
 
   const [inputBullet, setInputBullet] = useState(SAMPLE_WEAK_BULLETS[0].bullet);
   const [roleContext, setRoleContext] = useState(SAMPLE_WEAK_BULLETS[0].role);
@@ -93,9 +96,24 @@ export default function ResumeCoach() {
     <div className="page page--resume-coach">
       <PageHeader
         title="Resume Coach"
-        subtitle="Strengthen weak or unclear resume bullets with active phrasing without fabricating achievements."
+        description="Compare a resume with one specific job, or strengthen weak bullets — without fabricating achievements."
+        actions={
+          <Segmented
+            label="Resume Coach mode"
+            value={tab}
+            onChange={setTab}
+            options={[
+              { value: 'gap', label: 'Job gap analysis' },
+              { value: 'bullet', label: 'Bullet coach' },
+            ]}
+          />
+        }
       />
 
+      {tab === 'gap' ? (
+        <GapAnalysis jds={jds.items} />
+      ) : (
+      <>
       {/* Anti-fabrication Guarantee Callout */}
       <div
         style={{
@@ -386,6 +404,8 @@ export default function ResumeCoach() {
           )}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }

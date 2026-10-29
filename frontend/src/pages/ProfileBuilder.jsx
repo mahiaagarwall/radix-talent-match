@@ -216,7 +216,6 @@ export default function ProfileBuilder() {
         eyebrow="Step 3 · Profile Builder"
         title={title}
         description="Review what was extracted, correct it, add anything the resume missed, and save one reusable profile for Talent Check and Skill Matching."
-        owner="Aashish Kumar"
         actions={
           <>
             {!isNew && form && (

@@ -1,9 +1,10 @@
 import { ENDPOINTS } from '../app/config';
-import { apiClient } from './apiClient';
+import { apiClient, ApiError } from './apiClient';
 import { getDataMode } from './mode';
 import { tick } from './localRepository';
 import { profileService } from './profileService';
 import { jdService } from './jdService';
+import { rankCompanies, DEFAULT_TOP_N } from '../utils/companyMatcher';
 
 // Skill synonyms for client-side fallback matching
 const SYNONYMS = {
@@ -175,7 +176,40 @@ function localRecommend(profile, jds, roleFilter = '', minScore = 0, limit = 15)
   };
 }
 
+// Company Directory data is the same for every candidate; reuse it for 5 minutes
+// (the directory's own staleTime) instead of re-reading every table per click.
+const DIRECTORY_CACHE_MS = 5 * 60 * 1000;
+let directoryCache = null;
+
+function loadDirectory() {
+  if (directoryCache && Date.now() - directoryCache.at < DIRECTORY_CACHE_MS) return directoryCache.promise;
+  // Loaded on demand, like the lazily-routed directory, to keep Supabase out of the main bundle.
+  const promise = import('@cd/lib/companyApi').then((api) => api.fetchAllCompanyIntelligence());
+  directoryCache = { at: Date.now(), promise };
+  promise.catch(() => {
+    if (directoryCache?.promise === promise) directoryCache = null; // never cache a failure
+  });
+  return promise;
+}
+
 export const jobFinderService = {
+  /**
+   * Ranks every Company Directory company against one saved profile and returns the
+   * top five. The directory is read from its own Supabase tables in both data modes.
+   */
+  async recommendCompanies({ profileId, topN = DEFAULT_TOP_N }) {
+    if (!profileId) throw new ApiError('Select a candidate profile.', { code: 'validation' });
+    const [profile, directory, jds] = await Promise.all([profileService.get(profileId), loadDirectory(), jdService.list()]);
+    if (directory.companies.length === 0) {
+      throw new ApiError('The Company Directory returned no companies, so there is nothing to rank.', { code: 'empty' });
+    }
+    return { ...rankCompanies(profile, directory.companies, { jds, topN }), warnings: directory.warnings };
+  },
+
+  clearDirectoryCache() {
+    directoryCache = null;
+  },
+
   async recommend({ profileId, candidateProfile, roleFilter = '', minScore = 0, limit = 15 }) {
     if (getDataMode() === 'api') {
       try {

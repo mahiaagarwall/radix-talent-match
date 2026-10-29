@@ -1,5 +1,5 @@
-import { ENDPOINTS } from '../app/config';
-import { apiClient } from './apiClient';
+import { ENDPOINTS, MAX_UPLOAD_BYTES } from '../app/config';
+import { apiClient, ApiError } from './apiClient';
 import { getDataMode } from './mode';
 import { tick } from './localRepository';
 
@@ -108,7 +108,49 @@ function localEnhance(bullet) {
   };
 }
 
+export const GAP_RESUME_EXTENSIONS = ['.pdf', '.docx', '.txt'];
+const GAP_TIMEOUT_MS = 120000; // the backend may fail over between LLM providers
+
+// Builds the text sent for a saved JD: its original text when stored, else its structured requirements.
+export function jdRecordText(jd) {
+  if (!jd) return '';
+  if (typeof jd.raw_text === 'string' && jd.raw_text.trim()) return jd.raw_text.trim();
+  const lines = [`Role: ${jd.role || ''}`, `Company: ${jd.company || ''}`];
+  if (jd.experience_requirements) lines.push(`Experience: ${jd.experience_requirements}`);
+  if (jd.education_requirements) lines.push(`Education: ${jd.education_requirements}`);
+  (jd.responsibilities || []).forEach((r) => lines.push(`Responsibility: ${r}`));
+  (jd.skills || []).forEach((s) => {
+    const name = typeof s === 'string' ? s : s.skill_name;
+    if (!name) return;
+    const kind = typeof s === 'object' && s.requirement === 'preferred' ? 'Preferred' : 'Required';
+    lines.push(`${kind} skill: ${name}${s.evidence ? ` — "${s.evidence}"` : ''}`);
+  });
+  return lines.join('\n');
+}
+
 export const resumeCoachService = {
+  /**
+   * Resume vs. one job description, analyzed by the backend LLM. There is no local
+   * fallback: without the backend the caller gets an error, never a made-up analysis.
+   */
+  async analyzeGap({ file, resumeText, jdText }) {
+    if (!file && !String(resumeText || '').trim()) throw new ApiError('Upload a resume or paste its text.', { code: 'validation' });
+    if (!String(jdText || '').trim()) throw new ApiError('Paste the target job description or load a saved one.', { code: 'validation' });
+    if (file) {
+      const name = String(file.name || '').toLowerCase();
+      if (!GAP_RESUME_EXTENSIONS.some((ext) => name.endsWith(ext))) {
+        throw new ApiError(`"${file.name}" is not supported. Upload a PDF, DOCX or TXT resume, or paste the text.`, { code: 'unsupported' });
+      }
+      if (file.size > MAX_UPLOAD_BYTES) throw new ApiError(`"${file.name}" is larger than the 10 MB limit.`, { code: 'too_large' });
+    }
+    const form = new FormData();
+    if (file) form.append('resume_file', file);
+    else form.append('resume_text', resumeText);
+    form.append('jd_text', jdText);
+    return apiClient.upload(ENDPOINTS.careerCopilotGapAnalysis, form, { timeoutMs: GAP_TIMEOUT_MS });
+  },
+
+
   async improve({ bullet, roleContext, targetJdId, targetJdText }) {
     if (getDataMode() === 'api') {
       try {

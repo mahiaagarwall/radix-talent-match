@@ -31,6 +31,7 @@ from app.services.profile_loader import (
     get_candidate_profile,
     list_candidate_profiles,
 )
+from app.db.talent_check_repository import repository as talent_check_repo
 
 router = APIRouter(tags=["Talent Check"])
 
@@ -76,8 +77,10 @@ def run_talent_check_endpoint(req: TalentCheckRequest) -> TalentCheckResult:
             detail=f"Failed to load company requirements: {str(e)}",
         )
 
-    result_dict = calculate_readiness(profile, company)
-    return TalentCheckResult(**result_dict)
+    result = TalentCheckResult(**calculate_readiness(profile, company))
+    # Keep the run so the Dashboard and Results page can list it via /api/results.
+    talent_check_repo.save(result.model_dump())
+    return result
 
 
 @router.post(

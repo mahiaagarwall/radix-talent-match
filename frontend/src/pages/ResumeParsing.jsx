@@ -93,7 +93,6 @@ export default function ResumeParsing() {
         eyebrow="Step 2 · Resume Parsing"
         title="Resume Parsing"
         description="Upload a candidate resume to extract education, experience, projects and evidence-backed skills, then review them before building the profile."
-        owner="Mahi Aggarwal"
         actions={
           status !== 'idle' && (
             <Button icon={RotateCcw} onClick={reset}>
