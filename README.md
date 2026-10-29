@@ -130,29 +130,29 @@ npm run build       # typecheck + production bundle into dist/
 
 All routes are served by the unified FastAPI server:
 
-| Method | Endpoint | Description | Module Owner |
-|---|---|---|---|
-| `GET` | `/health` | JD Analyzer health status | Krishna Pandey |
-| `GET` | `/api/health` | Comprehensive system health check | Akshat Mehra |
-| `POST` | `/api/resumes/parse` | Parse resume document (PDF/DOCX) or form data | Mahi Aggarwal |
-| `POST` | `/api/profiles` | Create candidate profile (`prf_*`) | Aashish Kumar |
-| `GET` | `/api/profiles` | List all candidate profiles | Aashish Kumar |
-| `GET` | `/api/profiles/{profile_id}` | Retrieve specific candidate profile | Aashish Kumar |
-| `PATCH` | `/api/profiles/{profile_id}` | Update candidate profile | Aashish Kumar |
-| `DELETE` | `/api/profiles/{profile_id}` | Delete candidate profile | Aashish Kumar |
-| `POST` | `/api/jd/analyze` | Analyze job description (file or JSON text) | Krishna Pandey |
-| `POST` | `/api/jd` | Save analyzed job description | Krishna Pandey |
-| `GET` | `/api/jd` | List all job descriptions | Krishna Pandey |
-| `GET` | `/api/jd/{jd_id}` | Retrieve specific job description | Krishna Pandey |
-| `PATCH` | `/api/jd/{jd_id}` | Update job description | Krishna Pandey |
-| `POST` | `/api/talent-check` | Evaluate candidate readiness against company | Krishna Khanna |
-| `POST` | `/api/talent-check/compare` | Side-by-side comparison of two candidates | Krishna Khanna |
-| `GET` | `/api/talent-check/companies` | List companies with requirement profiles | Krishna Khanna |
-| `GET` | `/api/talent-check/candidates` | List available candidates for Talent Check | Krishna Khanna |
-| `GET` | `/api/companies` | Company requirements metadata | Krishna Khanna |
-| `POST` | `/api/skill-match` | Deterministic job-specific skill matching | Akshat Mehra |
-| `GET` | `/api/skill-match/{match_id}`| Retrieve persisted skill match result | Akshat Mehra |
-| `GET` | `/api/results` | List matching and talent check results | Akshat Mehra |
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/health` | JD Analyzer health status |
+| `GET` | `/api/health` | Comprehensive system health check |
+| `POST` | `/api/resumes/parse` | Parse resume document (PDF/DOCX) or form data |
+| `POST` | `/api/profiles` | Create candidate profile (`prf_*`) |
+| `GET` | `/api/profiles` | List all candidate profiles |
+| `GET` | `/api/profiles/{profile_id}` | Retrieve specific candidate profile | 
+| `PATCH` | `/api/profiles/{profile_id}` | Update candidate profile | 
+| `DELETE` | `/api/profiles/{profile_id}` | Delete candidate profile | 
+| `POST` | `/api/jd/analyze` | Analyze job description (file or JSON text) | 
+| `POST` | `/api/jd` | Save analyzed job description | 
+| `GET` | `/api/jd` | List all job descriptions | 
+| `GET` | `/api/jd/{jd_id}` | Retrieve specific job description | 
+| `PATCH` | `/api/jd/{jd_id}` | Update job description |
+| `POST` | `/api/talent-check` | Evaluate candidate readiness against company | 
+| `POST` | `/api/talent-check/compare` | Side-by-side comparison of two candidates | 
+| `GET` | `/api/talent-check/companies` | List companies with requirement profiles | 
+| `GET` | `/api/talent-check/candidates` | List available candidates for Talent Check | 
+| `GET` | `/api/companies` | Company requirements metadata |
+| `POST` | `/api/skill-match` | Deterministic job-specific skill matching |
+| `GET` | `/api/skill-match/{match_id}`| Retrieve persisted skill match result | 
+| `GET` | `/api/results` | List matching and talent check results | 
 
 ---
 
